@@ -1,0 +1,69 @@
+﻿<Window x:Class="Cube.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ViewModel="clr-namespace:Cube.ViewModel"
+        Title="MainWindow" Height="350" Width="525">
+    <!--<Window.DataContext>
+        <ViewModel:MainWindowViewModel></ViewModel:MainWindowViewModel>
+    </Window.DataContext>-->
+    <Grid>
+        <Grid Width="90" Height="90">
+            <Border x:Name="TopLeft" Background="{Binding tlBack, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" BorderBrush="Black" BorderThickness="2" Width="30" Height="30">
+            
+            </Border>
+            <Border x:Name="TopMiddle" Background="{Binding tmBack, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Center" BorderBrush="Black" BorderThickness="2" Width="30" Height="30">
+
+            </Border>
+            <Border x:Name="TopRight" Background="{Binding trBack, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Right" BorderBrush="Black" BorderThickness="2" Width="30" Height="30">
+
+            </Border>
+            <Border x:Name="MiddleLeft" Background="{Binding mlBack, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Left" BorderBrush="Black" BorderThickness="2" Width="30" Height="30">
+
+            </Border>
+            <Border x:Name="MiddleMiddle" Background="{Binding mmBack, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Black" BorderThickness="2" Width="30" Height="30">
+
+            </Border>
+            <Border x:Name="MiddleRight" Background="{Binding mrBack, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Right" BorderBrush="Black" BorderThickness="2" Width="30" Height="30">
+
+            </Border>
+            <Border x:Name="BottomLeft" Background="{Binding blBack, Mode=TwoWay}" VerticalAlignment="Bottom" HorizontalAlignment="Left" BorderBrush="Black" BorderThickness="2" Width="30" Height="30">
+
+            </Border>
+            <Border x:Name="BottomMiddle" Background="{Binding bmBack, Mode=TwoWay}" VerticalAlignment="Bottom" HorizontalAlignment="Center" BorderBrush="Black" BorderThickness="2" Width="30" Height="30">
+
+            </Border>
+            <Border x:Name="BottomRight" Background="{Binding brBack, Mode=TwoWay}" VerticalAlignment="Bottom" HorizontalAlignment="Right" BorderBrush="Black" BorderThickness="2" Width="30" Height="30">
+
+            </Border>
+        </Grid>
+        <Grid Height="20" Width="300" VerticalAlignment="Bottom" Margin="0,0,0,50">
+            <!--<Grid.DataContext>
+                <ViewModel:MainWindowViewModel></ViewModel:MainWindowViewModel>
+            </Grid.DataContext>-->
+            <Button Command="{Binding FrontClick}" Background="AntiqueWhite" Width="50" HorizontalAlignment="Left" Content="Front"></Button>
+            <Button Command="{Binding LeftClick}" Background="AntiqueWhite" Width="50" Margin="50,0,0,0" HorizontalAlignment="Left" Content="Left"></Button>
+            <Button Command="{Binding RightClick}" Background="AntiqueWhite" Width="50" Margin="100,0,0,0" HorizontalAlignment="Left" Content="Right"></Button>
+            <Button Command="{Binding TopClick}" Background="AntiqueWhite" Width="50" Margin="150,0,0,0" HorizontalAlignment="Left" Content="Top"></Button>
+            <Button Command="{Binding BackClick}" Background="AntiqueWhite" Width="50" Margin="200,0,0,0" HorizontalAlignment="Left" Content="Back"></Button>
+            <Button Command="{Binding BottomClick}" Background="AntiqueWhite" Width="50" Margin="250,0,0,0" HorizontalAlignment="Left" Content="Bottom"></Button>
+        </Grid>
+        <Grid Width="80" Height="240" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,110,0">
+            <Button Command="{Binding FrontCommand}" Background="AntiqueWhite" Height="20" Width="80" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="0,0,0,0" Content="Front"></Button>
+            <Button Command="{Binding FrontInvertedCommand}" Background="AntiqueWhite" Height="20" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,20,0,0" Content="FrontInverted"></Button>
+            <Button Command="{Binding RightCommand}" Background="AntiqueWhite" Height="20" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,40,0,0" Content="Right"></Button>
+            <Button Command="{Binding RightInvertedCommand}" Background="AntiqueWhite" Height="20" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,60,0,0" Content="RightInverted"></Button>
+            <Button Command="{Binding LeftCommand}" Background="AntiqueWhite" Height="20" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,80,0,0" Content="Left"></Button>
+            <Button Command="{Binding LeftInvertedCommand}" Background="AntiqueWhite" Height="20" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,100,0,0" Content="LeftInverted"></Button>
+            <Button Command="{Binding TopCommand}" Background="AntiqueWhite" Height="20" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,120,0,0" Content="Top"></Button>
+            <Button Command="{Binding TopInvertedCommand}" Background="AntiqueWhite" Height="20" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,140,0,0" Content="TopInverted"></Button>
+            <Button Command="{Binding BottomCommand}" Background="AntiqueWhite" Height="20" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,160,0,0" Content="Bottom"></Button>
+            <Button Command="{Binding BottomInvertedCommand}" Background="AntiqueWhite" Height="20" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,180,0,0" Content="BottomInverted"></Button>
+            <Button Command="{Binding BackCommand}" Background="AntiqueWhite" Height="20" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,200,0,0" Content="Back"></Button>
+            <Button Command="{Binding BackInvertedCommand}" Background="AntiqueWhite" Height="20" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,220,0,0" Content="BackInverted"></Button>   
+        </Grid>
+        <Grid Width="50" Height="40" HorizontalAlignment="Left" Margin="110, 0, 0, 0">
+            <Button Command="{Binding Scramble}" Background="AntiqueWhite" Height="20" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Content="Scramble"></Button>
+            <Button Command="{Binding Clear}" Background="AntiqueWhite" Height="20" Width="50" Margin="0,20,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Clear"></Button>
+        </Grid>
+    </Grid>
+</Window>
