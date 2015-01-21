@@ -11,6 +11,7 @@ namespace Cube.ViewModel
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
+        int totalMoves = 0;
         private string _tlBack;
         private string _tmBack;
         private string _trBack;
@@ -32,8 +33,379 @@ namespace Cube.ViewModel
             ClearCube();
             ShowFace(front);
         }
+
+        public void SolveCube()
+        {
+            List<string> crossPieces = FindCrossPieces();
+            List<string> openCross = FindOpenCross();
+            PlaceCrossPieces(openCross, crossPieces);
+            int j = totalMoves;
+        }
+
+        public void PlaceCrossPieces(List<string> openCross, List<string> crossPieces)
+        {
+            int iterations = 0;
+            while (openCross.Count != 0 && iterations < 1000)
+            {
+                iterations++;
+                while (crossPieces.Count != 0 && iterations < 1000)
+                {
+                    iterations++;
+                    switch (crossPieces[0])
+                    {
+                        case "front[1,0]":
+                            FrontInverted();
+                            Top();
+                            LeftInverted();
+                            TopInverted();
+                            openCross = FindOpenCross();
+                            crossPieces = FindCrossPieces();
+                            break;
+                        case "front[1,2]":
+                            if (top[1, 2] == "Green")
+                            {
+                                Bottom();
+                            }
+                            else
+                            {
+                                Front();
+                                Top();
+                                LeftInverted();
+                                TopInverted();
+                            }
+                            openCross = FindOpenCross();
+                            crossPieces = FindCrossPieces();
+                            break;
+                        case "front[0,1]":
+                            if (top[0, 1] != "Green")
+                            {
+                                LeftInverted();
+                            }
+                            else
+                            {
+                                Top();
+                            }
+                            openCross = FindOpenCross();
+                            crossPieces = FindCrossPieces();
+                            break;
+                        case "front[2,1]":
+                            if (top[2, 1] != "Green")
+                            {
+                                Right();
+                            }
+                            else
+                            {
+                                Top();
+                            }
+                            openCross = FindOpenCross();
+                            crossPieces = FindCrossPieces();
+                            break;
+                        case "back[1,0]":
+                            if (top[1, 0] == "Green")
+                            {
+                                Bottom();
+                            }
+                            else
+                            {
+                                Back();
+                                Top();
+                                RightInverted();
+                                TopInverted();
+                            }
+                            openCross = FindOpenCross();
+                            crossPieces = FindCrossPieces();
+                            break;
+                        case "back[1,2]":
+                            BackInverted();
+                            Top();
+                            RightInverted();
+                            TopInverted();
+                            openCross = FindOpenCross();
+                            crossPieces = FindCrossPieces();
+                            break;
+                        case "back[0,1]":
+                            if (top[0, 1] != "Green")
+                            {
+                                Left();
+                            }
+                            else
+                            {
+                                Top();
+                            }
+                            openCross = FindOpenCross();
+                            crossPieces = FindCrossPieces();
+                            break;
+                        case "back[2,1]":
+                            if (top[2, 1] != "Green")
+                            {
+                                RightInverted();
+                            }
+                            else
+                            {
+                                Top();
+                            }
+                            openCross = FindOpenCross();
+                            crossPieces = FindCrossPieces();
+                            break;
+                        case "left[1,0]":
+                            Left();
+                            TopInverted();
+                            Front();
+                            Top();
+                            openCross = FindOpenCross();
+                            crossPieces = FindCrossPieces();
+                            break;
+                        case "left[1,2]":
+                            if (top[0, 1] == "Green")
+                            {
+                                Bottom();
+                            }
+                            else
+                            {
+                                LeftInverted();
+                                TopInverted();
+                                Front();
+                                Top();
+                            }
+                            openCross = FindOpenCross();
+                            crossPieces = FindCrossPieces();
+                            break;
+                        case "left[0,1]":
+                            if (top[1, 0] != "Green")
+                            {
+                                BackInverted();
+                            }
+                            else
+                            {
+                                Top();
+                            }
+                            openCross = FindOpenCross();
+                            crossPieces = FindCrossPieces();
+                            break;
+                        case "left[2,1]":
+                            if (top[1, 2] != "Green")
+                            {
+                                Front();
+                            }
+                            else
+                            {
+                                Top();
+                            }
+                            openCross = FindOpenCross();
+                            crossPieces = FindCrossPieces();
+                            break;
+                        case "right[1,0]":
+                            RightInverted();
+                            Top();
+                            FrontInverted();
+                            TopInverted();
+                            openCross = FindOpenCross();
+                            crossPieces = FindCrossPieces();
+                            break;
+                        case "right[1,2]":
+                            if (top[2, 1] == "Green")
+                            {
+                                Bottom();
+                            }
+                            else
+                            {
+                                Right();
+                                Top();
+                                FrontInverted();
+                                TopInverted();
+                            }
+                            openCross = FindOpenCross();
+                            crossPieces = FindCrossPieces();
+                            break;
+                        case "right[0,1]":
+                            if (top[1, 2] != "Green")
+                            {
+                                FrontInverted();
+                            }
+                            else
+                            {
+                                Top();
+                            }
+                            openCross = FindOpenCross();
+                            crossPieces = FindCrossPieces();
+                            break;
+                        case "right[2,1]":
+                            if (top[1, 0] != "Green")
+                            {
+                                Back();
+                            }
+                            else
+                            {
+                                Top();
+                            }
+                            openCross = FindOpenCross();
+                            crossPieces = FindCrossPieces();
+                            break;
+                        case "bottom[1,0]":
+                            if (top[1, 2] != "Green")
+                            {
+                                Front();
+                                Front();
+                            }
+                            else
+                            {
+                                Bottom();
+                            }
+                            openCross = FindOpenCross();
+                            crossPieces = FindCrossPieces();
+                            break;
+                        case "bottom[1,2]":
+                            if (top[1, 0] != "Green")
+                            {
+                                Back();
+                                Back();
+                            }
+                            else
+                            {
+                                Bottom();
+                            }
+                            openCross = FindOpenCross();
+                            crossPieces = FindCrossPieces();
+                            break;
+                        case "bottom[0,1]":
+                            if (top[0, 1] != "Green")
+                            {
+                                Left();
+                                Left();
+                            }
+                            else
+                            {
+                                Bottom();
+                            }
+                            openCross = FindOpenCross();
+                            crossPieces = FindCrossPieces();
+                            break;
+                        case "bottom[2,1]":
+                            if (top[2, 1] != "Green")
+                            {
+                                Right();
+                                Right();
+                            }
+                            else
+                            {
+                                Bottom();
+                            }
+                            openCross = FindOpenCross();
+                            crossPieces = FindCrossPieces();
+                            break;
+                    }
+                }
+            }
+        }
+        public List<string> FindOpenCross()
+        {
+            List<string> openCrossLocation = new List<string>();
+            if (top[1, 0] != "Green")
+            {
+                openCrossLocation.Add("top[1,0]");
+            }
+            if (top[1, 2] != "Green")
+            {
+                openCrossLocation.Add("top[1,2]");
+            }
+            if (top[0, 1] != "Green")
+            {
+                openCrossLocation.Add("top[0,1]");
+            }
+            if (top[2, 1] != "Green")
+            {
+                openCrossLocation.Add("top[2,1]");
+            }
+            return openCrossLocation;
+        }
+        public List<string> FindCrossPieces()
+        {
+            List<string> crossPieceLocation = new List<string>();
+            if (front[1, 0] == "Green")
+            {
+                crossPieceLocation.Add("front[1,0]");
+            }
+            if (front[1, 2] == "Green")
+            {
+                crossPieceLocation.Add("front[1,2]");
+            }
+            if (front[0, 1] == "Green")
+            {
+                crossPieceLocation.Add("front[0,1]");
+            }
+            if (front[2, 1] == "Green")
+            {
+                crossPieceLocation.Add("front[2,1]");
+            }
+            if (back[1, 0] == "Green")
+            {
+                crossPieceLocation.Add("back[1,0]");
+            }
+            if (back[1, 2] == "Green")
+            {
+                crossPieceLocation.Add("back[1,2]");
+            }
+            if (back[0, 1] == "Green")
+            {
+                crossPieceLocation.Add("back[0,1]");
+            }
+            if (back[2, 1] == "Green")
+            {
+                crossPieceLocation.Add("back[2,1]");
+            }
+            if (left[1, 0] == "Green")
+            {
+                crossPieceLocation.Add("left[1,0]");
+            }
+            if (left[1, 2] == "Green")
+            {
+                crossPieceLocation.Add("left[1,2]");
+            }
+            if (left[0, 1] == "Green")
+            {
+                crossPieceLocation.Add("left[0,1]");
+            }
+            if (left[2, 1] == "Green")
+            {
+                crossPieceLocation.Add("left[2,1]");
+            }
+            if (right[1, 0] == "Green")
+            {
+                crossPieceLocation.Add("right[1,0]");
+            }
+            if (right[1, 2] == "Green")
+            {
+                crossPieceLocation.Add("right[1,2]");
+            }
+            if (right[0, 1] == "Green")
+            {
+                crossPieceLocation.Add("right[0,1]");
+            }
+            if (right[2, 1] == "Green")
+            {
+                crossPieceLocation.Add("right[2,1]");
+            }
+            if (bottom[1, 0] == "Green")
+            {
+                crossPieceLocation.Add("bottom[1,0]");
+            }
+            if (bottom[1, 2] == "Green")
+            {
+                crossPieceLocation.Add("bottom[1,2]");
+            }
+            if (bottom[0, 1] == "Green")
+            {
+                crossPieceLocation.Add("bottom[0,1]");
+            }
+            if (bottom[2, 1] == "Green")
+            {
+                crossPieceLocation.Add("bottom[2,1]");
+            }
+            return crossPieceLocation;
+        }
         public void Right()
         {
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -72,6 +444,7 @@ namespace Cube.ViewModel
 
         public void RightInverted()
         {
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -110,6 +483,7 @@ namespace Cube.ViewModel
 
         public void LeftInverted()
         {
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -147,6 +521,7 @@ namespace Cube.ViewModel
         }
         public void Left()
         {
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -183,8 +558,9 @@ namespace Cube.ViewModel
             RefreshScreen(currentFace);
         }
 
-        public void Top() 
+        public void Top()
         {
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -223,6 +599,7 @@ namespace Cube.ViewModel
 
         public void TopInverted()
         {
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -261,6 +638,7 @@ namespace Cube.ViewModel
 
         public void BottomInverted()
         {
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -299,6 +677,7 @@ namespace Cube.ViewModel
 
         public void Bottom()
         {
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -337,6 +716,7 @@ namespace Cube.ViewModel
 
         public void Front()
         {
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -375,6 +755,7 @@ namespace Cube.ViewModel
 
         public void FrontInverted()
         {
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -413,6 +794,7 @@ namespace Cube.ViewModel
 
         public void BackInverted()
         {
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -430,13 +812,28 @@ namespace Cube.ViewModel
             back[1, 1] = tempBack[1, 1];
             back[1, 2] = tempBack[0, 1];
 
+            left[0, 2] = tempBottom[2, 2];
+            left[0, 1] = tempBottom[1, 2];  //CORRECT
+            left[0, 0] = tempBottom[0, 2];
 
+            top[0, 0] = tempLeft[0, 2];
+            top[1, 0] = tempLeft[0, 1]; //CORRECT
+            top[2, 0] = tempLeft[0, 0];
+
+            right[2, 2] = tempTop[2, 0];
+            right[2, 1] = tempTop[1, 0];
+            right[2, 0] = tempTop[0, 0];
+
+            bottom[0, 2] = tempRight[2, 2];
+            bottom[1, 2] = tempRight[2, 1];
+            bottom[2, 2] = tempRight[2, 0];
 
             RefreshScreen(currentFace);
         }
 
         public void Back()
         {
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -521,7 +918,7 @@ namespace Cube.ViewModel
 
         public string[,] CopyFace(string[,] copiedFace)
         {
-            string[,] returnedFace = new string[3,3];
+            string[,] returnedFace = new string[3, 3];
             for (int i = 0; i < copiedFace.GetLength(0); i++)
             {
                 for (int j = 0; j < copiedFace.GetLength(1); j++)
@@ -750,6 +1147,16 @@ namespace Cube.ViewModel
                 });
             }
         }
+        public ICommand Solve
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    SolveCube();
+                });
+            }
+        }
         public void ClearCube()
         {
             SetOriginalColor(front, "White");
@@ -762,49 +1169,73 @@ namespace Cube.ViewModel
         }
         public void ScrambleCube()
         {
+            string finalString = "";
             Random r = new Random();
-            for (int i = 0; i < 10000; i++)
+            for (int i = 0; i < 100; i++)
             {
                 int move = r.Next(12);
                 switch (move)
                 {
                     case 0:
                         Right();
+                        finalString += "R,";
                         break;
                     case 1:
                         RightInverted();
+                        finalString += "Ri,";
                         break;
                     case 2:
                         Left();
+                        finalString += "L,";
                         break;
                     case 3:
                         LeftInverted();
+                        finalString += "Li,";
                         break;
                     case 4:
                         Front();
+                        finalString += "F,";
                         break;
                     case 5:
                         FrontInverted();
+                        finalString += "Fi,";
                         break;
                     case 6:
                         Back();
+                        finalString += "B,";
                         break;
                     case 7:
                         BackInverted();
+                        finalString += "Bi,";
                         break;
                     case 8:
                         Top();
+                        finalString += "U,";
                         break;
                     case 9:
                         TopInverted();
+                        finalString += "Ui,";
                         break;
                     case 10:
                         Bottom();
+                        finalString += "D,";
                         break;
                     case 11:
                         BottomInverted();
+                        finalString += "Di,";
                         break;
                 }
+            }
+            WriteScramble(finalString);
+        }
+
+        public void WriteScramble(string scrambleString)
+        {
+            // WriteAllLines creates a file, writes a collection of strings to the file, 
+            // and then closes the file.
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter("scramble.txt", true))
+            {
+                file.WriteLine(scrambleString);
             }
         }
         public string tlBack
