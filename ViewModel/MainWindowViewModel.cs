@@ -2,15 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Input;
 
 namespace Cube.ViewModel
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
+        string currentCube = "";
         int totalMoves = 0;
         private string _tlBack;
         private string _tmBack;
@@ -28,6 +31,7 @@ namespace Cube.ViewModel
         private string[,] bottom = new string[3, 3];
         private string[,] top = new string[3, 3];
         private string currentFace = "front";
+        private System.Windows.Visibility colorVisibility = System.Windows.Visibility.Hidden;
         public MainWindowViewModel()
         {
             ClearCube();
@@ -36,9 +40,13 @@ namespace Cube.ViewModel
 
         public void SolveCube()
         {
+            Stopwatch t = new Stopwatch();
+            t.Start();
             List<string> crossPieces = FindCrossPieces();
             List<string> openCross = FindOpenCross();
             PlaceCrossPieces(openCross, crossPieces, 0);
+            t.Stop();
+            long totalTime = t.ElapsedMilliseconds;
             int j = totalMoves;
             totalMoves = 0;
         }
@@ -55,10 +63,10 @@ namespace Cube.ViewModel
                     switch (crossPieces[crossListNum])
                     {
                         case "front[1,0]":
-                            FrontInverted();totalMoves++;
-                            Top();totalMoves++;
-                            LeftInverted();totalMoves++;
-                            TopInverted();totalMoves++;
+                            FrontInverted(); totalMoves++;
+                            Top(); totalMoves++;
+                            LeftInverted(); totalMoves++;
+                            TopInverted(); totalMoves++;
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
                             break;
@@ -68,7 +76,7 @@ namespace Cube.ViewModel
                                 Front(); totalMoves++;
                                 Top(); totalMoves++;
                                 LeftInverted(); totalMoves++;
-                                TopInverted();totalMoves++;
+                                TopInverted(); totalMoves++;
                             }
                             else if (openCross.Contains("top[1,0]"))
                             {
@@ -97,7 +105,7 @@ namespace Cube.ViewModel
                             {
                                 LeftInverted(); totalMoves++;
                             }
-                            else if(openCross.Contains("top[1,0]"))
+                            else if (openCross.Contains("top[1,0]"))
                             {
                                 TopInverted(); totalMoves++;
                                 LeftInverted(); totalMoves++;
@@ -168,14 +176,14 @@ namespace Cube.ViewModel
                                 Left(); totalMoves++;
                                 Back(); totalMoves++;
                             }
-                            openCross = FindOpenCross();totalMoves++;
-                            crossPieces = FindCrossPieces();totalMoves++;
+                            openCross = FindOpenCross(); totalMoves++;
+                            crossPieces = FindCrossPieces(); totalMoves++;
                             break;
                         case "back[1,2]":
-                            BackInverted();totalMoves++;
-                            Top();totalMoves++;
-                            RightInverted();totalMoves++;
-                            TopInverted();totalMoves++;
+                            BackInverted(); totalMoves++;
+                            Top(); totalMoves++;
+                            RightInverted(); totalMoves++;
+                            TopInverted(); totalMoves++;
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
                             break;
@@ -228,10 +236,10 @@ namespace Cube.ViewModel
                             crossPieces = FindCrossPieces();
                             break;
                         case "left[1,0]":
-                            Left();totalMoves++;
-                            TopInverted();totalMoves++;
-                            Front();totalMoves++;
-                            Top();totalMoves++;
+                            Left(); totalMoves++;
+                            TopInverted(); totalMoves++;
+                            Front(); totalMoves++;
+                            Top(); totalMoves++;
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
                             break;
@@ -315,10 +323,10 @@ namespace Cube.ViewModel
                             crossPieces = FindCrossPieces();
                             break;
                         case "right[1,0]":
-                            RightInverted();totalMoves++;
-                            Top();totalMoves++;
-                            FrontInverted();totalMoves++;
-                            TopInverted();totalMoves++;
+                            RightInverted(); totalMoves++;
+                            Top(); totalMoves++;
+                            FrontInverted(); totalMoves++;
+                            TopInverted(); totalMoves++;
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
                             break;
@@ -625,7 +633,7 @@ namespace Cube.ViewModel
         }
         public void Right()
         {
-            
+
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -664,7 +672,7 @@ namespace Cube.ViewModel
 
         public void RightInverted()
         {
-            
+
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -703,7 +711,7 @@ namespace Cube.ViewModel
 
         public void LeftInverted()
         {
-            
+
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -741,7 +749,7 @@ namespace Cube.ViewModel
         }
         public void Left()
         {
-            
+
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -780,7 +788,7 @@ namespace Cube.ViewModel
 
         public void Top()
         {
-            
+
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -819,7 +827,7 @@ namespace Cube.ViewModel
 
         public void TopInverted()
         {
-            
+
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -858,7 +866,7 @@ namespace Cube.ViewModel
 
         public void BottomInverted()
         {
-            
+
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -897,7 +905,7 @@ namespace Cube.ViewModel
 
         public void Bottom()
         {
-            
+
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -936,7 +944,7 @@ namespace Cube.ViewModel
 
         public void Front()
         {
-            
+
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -1012,7 +1020,7 @@ namespace Cube.ViewModel
         }
 
         public void BackInverted()
-        { 
+        {
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -1350,6 +1358,7 @@ namespace Cube.ViewModel
             {
                 return new RelayCommand(() =>
                 {
+                    ColorVisibility = System.Windows.Visibility.Hidden;
                     ClearCube();
                 });
             }
@@ -1360,6 +1369,7 @@ namespace Cube.ViewModel
             {
                 return new RelayCommand(() =>
                 {
+                    ColorVisibility = System.Windows.Visibility.Hidden;
                     ScrambleCube();
                 });
             }
@@ -1373,6 +1383,304 @@ namespace Cube.ViewModel
                     SolveCube();
                 });
             }
+        }
+
+        public ICommand SelectTopLeftColor
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    SelectColor("tl");
+                });
+            }
+        }
+        public ICommand SelectTopMiddleColor
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    SelectColor("tm");
+                });
+            }
+        }
+        public ICommand SelectTopRightColor
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    SelectColor("tr");
+                });
+            }
+        }
+        public ICommand SelectMiddleLeftColor
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    SelectColor("ml");
+                });
+            }
+        }
+        public ICommand SelectMiddleRightColor
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    SelectColor("mr");
+                });
+            }
+        }
+        public ICommand SelectBottomLeftColor
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    SelectColor("bl");
+                });
+            }
+        }
+        public ICommand SelectBottomMiddleColor
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    SelectColor("bm");
+                });
+            }
+        }
+        public ICommand SelectBottomRightColor
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    SelectColor("br");
+                });
+            }
+        }
+        public ICommand SelectWhite
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    SetCubeColor("White");
+                });
+            }
+        }
+        public ICommand SelectYellow
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    SetCubeColor("Yellow");
+                });
+            }
+        }
+        public ICommand SelectRed
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    SetCubeColor("Red");
+                });
+            }
+        }
+        public ICommand SelectOrange
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    SetCubeColor("Orange");
+                });
+            }
+        }
+        public ICommand SelectGreen
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    SetCubeColor("Green");
+                });
+            }
+        }
+        public ICommand SelectBlue
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    SetCubeColor("Blue");
+                });
+            }
+        }
+        public void SetCubeColor(string color)
+        {
+            switch (currentCube)
+            {
+                case "fronttl":
+                    front[0, 0] = color;
+                    break;
+                case "fronttm":
+                    front[1, 0] = color;
+                    break;
+                case "fronttr":
+                    front[2, 0] = color;
+                    break;
+                case "frontml":
+                    front[0, 1] = color;
+                    break;
+                case "frontmr":
+                    front[2, 1] = color;
+                    break;
+                case "frontbl":
+                    front[0, 2] = color;
+                    break;
+                case "frontbm":
+                    front[1, 2] = color;
+                    break;
+                case "frontbr":
+                    front[2, 2] = color;
+                    break;
+                case "backtl":
+                    back[0, 0] = color;
+                    break;
+                case "backtm":
+                    back[1, 0] = color;
+                    break;
+                case "backtr":
+                    back[2, 0] = color;
+                    break;
+                case "backml":
+                    back[0, 1] = color;
+                    break;
+                case "backmr":
+                    back[2, 1] = color;
+                    break;
+                case "backbl":
+                    back[0, 2] = color;
+                    break;
+                case "backbm":
+                    back[1, 2] = color;
+                    break;
+                case "backbr":
+                    back[2, 2] = color;
+                    break;
+                case "toptl":
+                    top[0, 0] = color;
+                    break;
+                case "toptm":
+                    top[1, 0] = color;
+                    break;
+                case "toptr":
+                    top[2, 0] = color;
+                    break;
+                case "topml":
+                    top[0, 1] = color;
+                    break;
+                case "topmr":
+                    top[2, 1] = color;
+                    break;
+                case "topbl":
+                    top[0, 2] = color;
+                    break;
+                case "topbm":
+                    top[1, 2] = color;
+                    break;
+                case "topbr":
+                    top[2, 2] = color;
+                    break;
+                case "bottomtl":
+                    bottom[0, 0] = color;
+                    break;
+                case "bottomtm":
+                    bottom[1, 0] = color;
+                    break;
+                case "bottomtr":
+                    bottom[2, 0] = color;
+                    break;
+                case "bottomml":
+                    bottom[0, 1] = color;
+                    break;
+                case "bottommr":
+                    bottom[2, 1] = color;
+                    break;
+                case "bottombl":
+                    bottom[0, 2] = color;
+                    break;
+                case "bottombm":
+                    bottom[1, 2] = color;
+                    break;
+                case "bottombr":
+                    bottom[2, 2] = color;
+                    break;
+                case "lefttl":
+                    left[0, 0] = color;
+                    break;
+                case "lefttm":
+                    left[1, 0] = color;
+                    break;
+                case "lefttr":
+                    left[2, 0] = color;
+                    break;
+                case "leftml":
+                    left[0, 1] = color;
+                    break;
+                case "leftmr":
+                    left[2, 1] = color;
+                    break;
+                case "leftbl":
+                    left[0, 2] = color;
+                    break;
+                case "leftbm":
+                    left[1, 2] = color;
+                    break;
+                case "leftbr":
+                    left[2, 2] = color;
+                    break;
+                case "righttl":
+                    right[0, 0] = color;
+                    break;
+                case "righttm":
+                    right[1, 0] = color;
+                    break;
+                case "righttr":
+                    right[2, 0] = color;
+                    break;
+                case "rightml":
+                    right[0, 1] = color;
+                    break;
+                case "rightmr":
+                    right[2, 1] = color;
+                    break;
+                case "rightbl":
+                    right[0, 2] = color;
+                    break;
+                case "rightbm":
+                    right[1, 2] = color;
+                    break;
+                case "rightbr":
+                    right[2, 2] = color;
+                    break;
+            }
+            ColorVisibility = System.Windows.Visibility.Hidden;
+            RefreshScreen(currentFace);
+        }
+        public void SelectColor(string face)
+        {
+            currentCube = currentFace + face;
+            ColorVisibility = System.Windows.Visibility.Visible;
         }
         public void ClearCube()
         {
@@ -1388,7 +1696,7 @@ namespace Cube.ViewModel
         {
             string finalString = "";
             Random r = new Random();
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 int move = r.Next(12);
                 switch (move)
@@ -1453,6 +1761,18 @@ namespace Cube.ViewModel
             using (System.IO.StreamWriter file = new System.IO.StreamWriter("scramble.txt", true))
             {
                 file.WriteLine(scrambleString);
+            }
+        }
+        public System.Windows.Visibility ColorVisibility
+        {
+            get
+            {
+                return colorVisibility;
+            }
+            set
+            {
+                colorVisibility = value;
+                OnPropertyChanged("ColorVisibility");
             }
         }
         public string tlBack
