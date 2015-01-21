@@ -38,11 +38,12 @@ namespace Cube.ViewModel
         {
             List<string> crossPieces = FindCrossPieces();
             List<string> openCross = FindOpenCross();
-            PlaceCrossPieces(openCross, crossPieces);
+            PlaceCrossPieces(openCross, crossPieces, 0);
             int j = totalMoves;
+            totalMoves = 0;
         }
 
-        public void PlaceCrossPieces(List<string> openCross, List<string> crossPieces)
+        public void PlaceCrossPieces(List<string> openCross, List<string> crossPieces, int crossListNum)
         {
             int iterations = 0;
             while (openCross.Count != 0 && iterations < 1000)
@@ -51,27 +52,42 @@ namespace Cube.ViewModel
                 while (crossPieces.Count != 0 && iterations < 1000)
                 {
                     iterations++;
-                    switch (crossPieces[0])
+                    switch (crossPieces[crossListNum])
                     {
                         case "front[1,0]":
-                            FrontInverted();
-                            Top();
-                            LeftInverted();
-                            TopInverted();
+                            FrontInverted();totalMoves++;
+                            Top();totalMoves++;
+                            LeftInverted();totalMoves++;
+                            TopInverted();totalMoves++;
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
                             break;
                         case "front[1,2]":
-                            if (top[1, 2] == "Green")
+                            if (top[1, 2] != "Green")
                             {
-                                Bottom();
+                                Front(); totalMoves++;
+                                Top(); totalMoves++;
+                                LeftInverted(); totalMoves++;
+                                TopInverted();totalMoves++;
                             }
-                            else
+                            else if (openCross.Contains("top[1,0]"))
                             {
-                                Front();
-                                Top();
-                                LeftInverted();
-                                TopInverted();
+                                Front(); totalMoves++;
+                                TopInverted(); totalMoves++;
+                                LeftInverted(); totalMoves++;
+                                Top(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[0,1]"))
+                            {
+                                Front(); totalMoves++;
+                                LeftInverted(); totalMoves++;
+                                FrontInverted(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[2,1]"))
+                            {
+                                FrontInverted(); totalMoves++;
+                                Right(); totalMoves++;
+                                Front(); totalMoves++;
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -79,11 +95,23 @@ namespace Cube.ViewModel
                         case "front[0,1]":
                             if (top[0, 1] != "Green")
                             {
-                                LeftInverted();
+                                LeftInverted(); totalMoves++;
                             }
-                            else
+                            else if(openCross.Contains("top[1,0]"))
                             {
-                                Top();
+                                TopInverted(); totalMoves++;
+                                LeftInverted(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[1,2]"))
+                            {
+                                Top(); totalMoves++;
+                                LeftInverted(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[2,1]"))
+                            {
+                                Top(); totalMoves++;
+                                Top(); totalMoves++;
+                                LeftInverted(); totalMoves++;
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -91,46 +119,86 @@ namespace Cube.ViewModel
                         case "front[2,1]":
                             if (top[2, 1] != "Green")
                             {
-                                Right();
+                                Right(); totalMoves++;
                             }
-                            else
+                            else if (openCross.Contains("top[1,0]"))
                             {
-                                Top();
+                                Top(); totalMoves++;
+                                Right(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[1,2]"))
+                            {
+                                TopInverted(); totalMoves++;
+                                Right(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[0,1]"))
+                            {
+                                Top(); totalMoves++;
+                                Top(); totalMoves++;
+                                Right(); totalMoves++;
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
                             break;
                         case "back[1,0]":
-                            if (top[1, 0] == "Green")
+                            if (top[1, 0] != "Green")
                             {
-                                Bottom();
+                                Back(); totalMoves++;
+                                Top(); totalMoves++;
+                                RightInverted(); totalMoves++;
+                                TopInverted(); totalMoves++;
                             }
-                            else
+                            else if (openCross.Contains("top[2,1]"))
                             {
-                                Back();
-                                Top();
-                                RightInverted();
-                                TopInverted();
+                                Back(); totalMoves++;
+                                RightInverted(); totalMoves++;
+                                BackInverted(); totalMoves++;
                             }
-                            openCross = FindOpenCross();
-                            crossPieces = FindCrossPieces();
+                            else if (openCross.Contains("top[1,2]"))
+                            {
+                                Back(); totalMoves++;
+                                TopInverted(); totalMoves++;
+                                RightInverted(); totalMoves++;
+                                Top(); totalMoves++;
+                                BackInverted(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[0,1]"))
+                            {
+                                BackInverted(); totalMoves++;
+                                Left(); totalMoves++;
+                                Back(); totalMoves++;
+                            }
+                            openCross = FindOpenCross();totalMoves++;
+                            crossPieces = FindCrossPieces();totalMoves++;
                             break;
                         case "back[1,2]":
-                            BackInverted();
-                            Top();
-                            RightInverted();
-                            TopInverted();
+                            BackInverted();totalMoves++;
+                            Top();totalMoves++;
+                            RightInverted();totalMoves++;
+                            TopInverted();totalMoves++;
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
                             break;
                         case "back[0,1]":
                             if (top[0, 1] != "Green")
                             {
-                                Left();
+                                Left(); totalMoves++;
                             }
-                            else
+                            else if (openCross.Contains("top[2,1]"))
                             {
-                                Top();
+                                Top(); totalMoves++;
+                                Top(); totalMoves++;
+                                Left(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[1,2]"))
+                            {
+                                Top(); totalMoves++;
+                                Left(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[1,0]"))
+                            {
+                                TopInverted(); totalMoves++;
+                                Left(); totalMoves++;
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -138,34 +206,62 @@ namespace Cube.ViewModel
                         case "back[2,1]":
                             if (top[2, 1] != "Green")
                             {
-                                RightInverted();
+                                RightInverted(); totalMoves++;
                             }
-                            else
+                            else if (openCross.Contains("top[0,1]"))
                             {
-                                Top();
+                                Top(); totalMoves++;
+                                Top(); totalMoves++;
+                                RightInverted(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[1,2]"))
+                            {
+                                TopInverted(); totalMoves++;
+                                RightInverted(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[1,0]"))
+                            {
+                                Top(); totalMoves++;
+                                RightInverted(); totalMoves++;
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
                             break;
                         case "left[1,0]":
-                            Left();
-                            TopInverted();
-                            Front();
-                            Top();
+                            Left();totalMoves++;
+                            TopInverted();totalMoves++;
+                            Front();totalMoves++;
+                            Top();totalMoves++;
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
                             break;
                         case "left[1,2]":
-                            if (top[0, 1] == "Green")
+                            if (top[0, 1] != "Green")
                             {
-                                Bottom();
+                                LeftInverted(); totalMoves++;
+                                TopInverted(); totalMoves++;
+                                Front(); totalMoves++;
+                                Top(); totalMoves++;
                             }
-                            else
+                            else if (openCross.Contains("top[2,1]"))
                             {
-                                LeftInverted();
-                                TopInverted();
-                                Front();
-                                Top();
+                                LeftInverted(); totalMoves++;
+                                Top(); totalMoves++;
+                                Front(); totalMoves++;
+                                TopInverted(); totalMoves++;
+                                Left(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[1,2]"))
+                            {
+                                LeftInverted(); totalMoves++;
+                                Front(); totalMoves++;
+                                Left(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[1,0]"))
+                            {
+                                Left(); totalMoves++;
+                                BackInverted(); totalMoves++;
+                                LeftInverted(); totalMoves++;
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -173,11 +269,23 @@ namespace Cube.ViewModel
                         case "left[0,1]":
                             if (top[1, 0] != "Green")
                             {
-                                BackInverted();
+                                BackInverted(); totalMoves++;
                             }
-                            else
+                            else if (openCross.Contains("top[2,1]"))
                             {
-                                Top();
+                                TopInverted(); totalMoves++;
+                                BackInverted(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[1,2]"))
+                            {
+                                Top(); totalMoves++;
+                                Top(); totalMoves++;
+                                BackInverted(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[0,1]"))
+                            {
+                                Top(); totalMoves++;
+                                BackInverted(); totalMoves++;
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -185,34 +293,62 @@ namespace Cube.ViewModel
                         case "left[2,1]":
                             if (top[1, 2] != "Green")
                             {
-                                Front();
+                                Front(); totalMoves++;
                             }
-                            else
+                            else if (openCross.Contains("top[1,0]"))
                             {
-                                Top();
+                                Top(); totalMoves++;
+                                Top(); totalMoves++;
+                                Front(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[2,1]"))
+                            {
+                                Top(); totalMoves++;
+                                Front(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[0,1]"))
+                            {
+                                TopInverted(); totalMoves++;
+                                Front(); totalMoves++;
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
                             break;
                         case "right[1,0]":
-                            RightInverted();
-                            Top();
-                            FrontInverted();
-                            TopInverted();
+                            RightInverted();totalMoves++;
+                            Top();totalMoves++;
+                            FrontInverted();totalMoves++;
+                            TopInverted();totalMoves++;
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
                             break;
                         case "right[1,2]":
-                            if (top[2, 1] == "Green")
+                            if (top[2, 1] != "Green")
                             {
-                                Bottom();
+                                Right(); totalMoves++;
+                                Top(); totalMoves++;
+                                FrontInverted(); totalMoves++;
+                                TopInverted(); totalMoves++;
+                                RightInverted(); totalMoves++;
                             }
-                            else
+                            else if (openCross.Contains("top[1,0]"))
                             {
-                                Right();
-                                Top();
-                                FrontInverted();
-                                TopInverted();
+                                RightInverted(); totalMoves++;
+                                Back(); totalMoves++;
+                                Right(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[1,2]"))
+                            {
+                                Right(); totalMoves++;
+                                FrontInverted(); totalMoves++;
+                                RightInverted(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[0,1]"))
+                            {
+                                TopInverted(); totalMoves++;
+                                Right(); totalMoves++;
+                                FrontInverted(); totalMoves++;
+                                RightInverted(); totalMoves++;
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -220,11 +356,23 @@ namespace Cube.ViewModel
                         case "right[0,1]":
                             if (top[1, 2] != "Green")
                             {
-                                FrontInverted();
+                                FrontInverted(); totalMoves++;
                             }
-                            else
+                            else if (openCross.Contains("top[1,0]"))
                             {
-                                Top();
+                                Top(); totalMoves++;
+                                Top(); totalMoves++;
+                                FrontInverted(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[2,1]"))
+                            {
+                                Top(); totalMoves++;
+                                FrontInverted(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[0,1]"))
+                            {
+                                TopInverted(); totalMoves++;
+                                FrontInverted(); totalMoves++;
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -232,11 +380,23 @@ namespace Cube.ViewModel
                         case "right[2,1]":
                             if (top[1, 0] != "Green")
                             {
-                                Back();
+                                Back(); totalMoves++;
                             }
-                            else
+                            else if (openCross.Contains("top[1,2]"))
                             {
-                                Top();
+                                Top(); totalMoves++;
+                                Top(); totalMoves++;
+                                Back(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[2,1]"))
+                            {
+                                TopInverted(); totalMoves++;
+                                Back(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[0,1]"))
+                            {
+                                Top(); totalMoves++;
+                                Back(); totalMoves++;
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -244,12 +404,27 @@ namespace Cube.ViewModel
                         case "bottom[1,0]":
                             if (top[1, 2] != "Green")
                             {
-                                Front();
-                                Front();
+                                Front(); totalMoves++;
+                                Front(); totalMoves++;
                             }
-                            else
+                            else if (openCross.Contains("top[1,0]"))
                             {
-                                Bottom();
+                                Bottom(); totalMoves++;
+                                Bottom(); totalMoves++;
+                                Back(); totalMoves++;
+                                Back(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[2,1]"))
+                            {
+                                Bottom(); totalMoves++;
+                                Right(); totalMoves++;
+                                Right(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[0,1]"))
+                            {
+                                BottomInverted(); totalMoves++;
+                                Left(); totalMoves++;
+                                Left(); totalMoves++;
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -257,12 +432,27 @@ namespace Cube.ViewModel
                         case "bottom[1,2]":
                             if (top[1, 0] != "Green")
                             {
-                                Back();
-                                Back();
+                                Back(); totalMoves++;
+                                Back(); totalMoves++;
                             }
-                            else
+                            else if (openCross.Contains("top[1,2]"))
                             {
-                                Bottom();
+                                Bottom(); totalMoves++;
+                                Bottom(); totalMoves++;
+                                Front(); totalMoves++;
+                                Front(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[2,1]"))
+                            {
+                                BottomInverted(); totalMoves++;
+                                Right(); totalMoves++;
+                                Right(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[0,1]"))
+                            {
+                                Bottom(); totalMoves++;
+                                Left(); totalMoves++;
+                                Left(); totalMoves++;
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -270,12 +460,27 @@ namespace Cube.ViewModel
                         case "bottom[0,1]":
                             if (top[0, 1] != "Green")
                             {
-                                Left();
-                                Left();
+                                Left(); totalMoves++;
+                                Left(); totalMoves++;
                             }
-                            else
+                            else if (openCross.Contains("top[1,2]"))
                             {
-                                Bottom();
+                                Bottom(); totalMoves++;
+                                Front(); totalMoves++;
+                                Front(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[2,1]"))
+                            {
+                                Bottom(); totalMoves++;
+                                Bottom(); totalMoves++;
+                                Right(); totalMoves++;
+                                Right(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[1,0]"))
+                            {
+                                BottomInverted(); totalMoves++;
+                                Back(); totalMoves++;
+                                Back(); totalMoves++;
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -283,12 +488,27 @@ namespace Cube.ViewModel
                         case "bottom[2,1]":
                             if (top[2, 1] != "Green")
                             {
-                                Right();
-                                Right();
+                                Right(); totalMoves++;
+                                Right(); totalMoves++;
                             }
-                            else
+                            else if (openCross.Contains("top[1,2]"))
                             {
-                                Bottom();
+                                BottomInverted(); totalMoves++;
+                                Front(); totalMoves++;
+                                Front(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[0,1]"))
+                            {
+                                Bottom(); totalMoves++;
+                                Bottom(); totalMoves++;
+                                Left(); totalMoves++;
+                                Left(); totalMoves++;
+                            }
+                            else if (openCross.Contains("top[1,0]"))
+                            {
+                                Bottom(); totalMoves++;
+                                Back(); totalMoves++;
+                                Back(); totalMoves++;
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -405,7 +625,7 @@ namespace Cube.ViewModel
         }
         public void Right()
         {
-            totalMoves++;
+            
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -444,7 +664,7 @@ namespace Cube.ViewModel
 
         public void RightInverted()
         {
-            totalMoves++;
+            
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -483,7 +703,7 @@ namespace Cube.ViewModel
 
         public void LeftInverted()
         {
-            totalMoves++;
+            
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -521,7 +741,7 @@ namespace Cube.ViewModel
         }
         public void Left()
         {
-            totalMoves++;
+            
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -560,7 +780,7 @@ namespace Cube.ViewModel
 
         public void Top()
         {
-            totalMoves++;
+            
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -599,7 +819,7 @@ namespace Cube.ViewModel
 
         public void TopInverted()
         {
-            totalMoves++;
+            
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -638,7 +858,7 @@ namespace Cube.ViewModel
 
         public void BottomInverted()
         {
-            totalMoves++;
+            
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -677,7 +897,7 @@ namespace Cube.ViewModel
 
         public void Bottom()
         {
-            totalMoves++;
+            
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -716,7 +936,7 @@ namespace Cube.ViewModel
 
         public void Front()
         {
-            totalMoves++;
+            
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -755,7 +975,6 @@ namespace Cube.ViewModel
 
         public void FrontInverted()
         {
-            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -793,8 +1012,7 @@ namespace Cube.ViewModel
         }
 
         public void BackInverted()
-        {
-            totalMoves++;
+        { 
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -833,7 +1051,6 @@ namespace Cube.ViewModel
 
         public void Back()
         {
-            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
