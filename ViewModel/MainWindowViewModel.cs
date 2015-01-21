@@ -430,7 +430,21 @@ namespace Cube.ViewModel
             back[1, 1] = tempBack[1, 1];
             back[1, 2] = tempBack[0, 1];
 
+            left[0, 2] = tempBottom[2, 2];
+            left[0, 1] = tempBottom[1, 2];  //CORRECT
+            left[0, 0] = tempBottom[0, 2];
 
+            top[0, 0] = tempLeft[0, 2];
+            top[1, 0] = tempLeft[0, 1]; //CORRECT
+            top[2, 0] = tempLeft[0, 0];
+
+            right[2, 2] = tempTop[2, 0];
+            right[2, 1] = tempTop[1, 0];
+            right[2, 0] = tempTop[0, 0];
+
+            bottom[0, 2] = tempRight[2, 2];
+            bottom[1, 2] = tempRight[2, 1];
+            bottom[2, 2] = tempRight[2, 0];
 
             RefreshScreen(currentFace);
         }
@@ -762,49 +776,73 @@ namespace Cube.ViewModel
         }
         public void ScrambleCube()
         {
+            string finalString = "";
             Random r = new Random();
-            for (int i = 0; i < 10000; i++)
+            for (int i = 0; i < 100; i++)
             {
                 int move = r.Next(12);
                 switch (move)
                 {
                     case 0:
                         Right();
+                        finalString += "R,";
                         break;
                     case 1:
                         RightInverted();
+                        finalString += "Ri,";
                         break;
                     case 2:
                         Left();
+                        finalString += "L,";
                         break;
                     case 3:
                         LeftInverted();
+                        finalString += "Li,";
                         break;
                     case 4:
                         Front();
+                        finalString += "F,";
                         break;
                     case 5:
                         FrontInverted();
+                        finalString += "Fi,";
                         break;
                     case 6:
                         Back();
+                        finalString += "B,";
                         break;
                     case 7:
                         BackInverted();
+                        finalString += "Bi,";
                         break;
                     case 8:
                         Top();
+                        finalString += "U,";
                         break;
                     case 9:
                         TopInverted();
+                        finalString += "Ui,";
                         break;
                     case 10:
                         Bottom();
+                        finalString += "D,";
                         break;
                     case 11:
                         BottomInverted();
+                        finalString += "Di,";
                         break;
                 }
+            }
+            WriteScramble(finalString);
+        }
+
+        public void WriteScramble(string scrambleString)
+        {
+        // WriteAllLines creates a file, writes a collection of strings to the file, 
+        // and then closes the file.
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter("scramble.txt", true))
+            {
+                file.WriteLine(scrambleString);
             }
         }
         public string tlBack
