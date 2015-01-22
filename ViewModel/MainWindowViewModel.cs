@@ -79,685 +79,1154 @@ namespace Cube.ViewModel
                             colors = splitFace[1].Split('|');
                             if (colors.Contains("Yellow") && colors.Contains("Red"))
                             {
-                                cornersList.Remove("top00");
+                                cornersList.RemoveAt(i);
                             }
                             break;
                         case "top20":
                             colors = splitFace[1].Split('|');
                             if (colors.Contains("Yellow") && colors.Contains("Orange"))
                             {
-                                cornersList.Remove("top20");
+                                cornersList.RemoveAt(i);
                             }
                             break;
                         case "top02":
                             colors = splitFace[1].Split('|');
                             if (colors.Contains("White") && colors.Contains("Red"))
                             {
-                                cornersList.Remove("top02");
+                                cornersList.RemoveAt(i);
                             }
                             break;
                         case "top22":
                             colors = splitFace[1].Split('|');
                             if (colors.Contains("White") && colors.Contains("Orange"))
                             {
-                                cornersList.Remove("top22");
+                                cornersList.RemoveAt(i);
                             }
                             break;
                     }
                 }
-
-                string[] cornerLocation = cornersList[0].Split('_');
-                colors = cornerLocation[1].Split('|');
-                switch (cornerLocation[0])
+                if (cornersList.Count != 0)
                 {
-                    case "front00":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-                            FrontInverted();
-                            BottomInverted();
-                            Front();
-                            BottomInverted();
-                            BottomInverted();
-                            RightInverted();
-                            BottomInverted();
-                            Right();
-                            Bottom();
-                            cornersList = GetGreenCorners();
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-                            FrontInverted();
-                            Bottom();
-                            Bottom();
-                            BackInverted();
-                            BottomInverted();
-                            Back();
-                            Bottom();
-                            cornersList = GetGreenCorners();
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-                            FrontInverted();
-                            BottomInverted();
-                            Front();
-                            Bottom();
-                            FrontInverted();
-                            BottomInverted();
-                            Front();
-                            Bottom();
-                            cornersList = GetGreenCorners();
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-                            FrontInverted();
-                            BottomInverted();
-                            Front();
-                            LeftInverted();
-                            BottomInverted();
-                            Left();
-                            Bottom();
-                            cornersList = GetGreenCorners();
-                        }
-                        break;
-                    case "front20":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-                            Front();
-                            Bottom();
-                            FrontInverted();
-                            BottomInverted();
-                            Front();
-                            Bottom();
-                            FrontInverted();
-                            BottomInverted();
-                            cornersList = GetGreenCorners();
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-                            Front();
-                            Bottom();
-                            FrontInverted();
-                            Right();
-                            Bottom();
-                            RightInverted();
-                            BottomInverted();
-                            cornersList = GetGreenCorners();
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-                            Front();
-                            BottomInverted();
-                            BottomInverted();
-                            FrontInverted();
-                            Bottom();
-                            Left();
-                            Bottom();
-                            LeftInverted();
-                            BottomInverted();
-                            cornersList = GetGreenCorners();
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-                            Front();
-                            BottomInverted();
-                            BottomInverted();
-                            FrontInverted();
-                            Back();
-                            Bottom();
-                            BackInverted();
-                            BottomInverted();
-                            cornersList = GetGreenCorners();
-                        }
-                        break;
-                    case "front02":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-                            Bottom();
-                            RightInverted();
-                            BottomInverted();
-                            Right();
-                            Bottom();
-                            cornersList = GetGreenCorners();
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-                            Bottom();
-                            Bottom();
-                            BackInverted();
-                            BottomInverted();
-                            Back();
-                            Bottom();
-                            cornersList = GetGreenCorners();
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-                            FrontInverted();
-                            BottomInverted();
-                            Front();
-                            Bottom();
-                            cornersList = GetGreenCorners();
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-                            BottomInverted();
-                            LeftInverted();
-                            BottomInverted();
-                            Left();
-                            Bottom();
-                        }
-                        break;
-                    case "front22":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-                            Front();
-                            Bottom();
-                            FrontInverted();
-                            BottomInverted();
-                            cornersList = GetGreenCorners();
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-                            Bottom();
-                            Right();
-                            Bottom();
-                            RightInverted();
-                            BottomInverted();
-                            cornersList = GetGreenCorners();
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-                            BottomInverted();
-                            Left();
-                            Bottom();
-                            LeftInverted();
-                            BottomInverted();
-                            cornersList = GetGreenCorners();
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-                            BottomInverted();
-                            BottomInverted();
-                            Back();
-                            Bottom();
-                            BackInverted();
-                            BottomInverted();
-                        }
-                        break;
-                    case "back00":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-                            Bottom();
-                            Bottom();
-                            //Front22 Placement
-                            Front();
-                            Bottom();
-                            FrontInverted();
-                            BottomInverted();
-                            cornersList = GetGreenCorners();
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-                            BottomInverted();
-                            //Right22 Placement
-                            Right();
-                            Bottom();
-                            RightInverted();
-                            BottomInverted();
-                            cornersList = GetGreenCorners();
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-                            Bottom();
-                            //Left22 Placement
-                            Left();
-                            Bottom();
-                            LeftInverted();
-                            BottomInverted();
-                            cornersList = GetGreenCorners();
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-                            //Back00 Placement
-                            Back();
-                            Bottom();
-                            BackInverted();
-                            BottomInverted();
-                            cornersList = GetGreenCorners();
-                        }
-                        break;
-                    case "back20":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-                            BottomInverted();
-                            //Right02 Placement
-                            RightInverted();
-                            BottomInverted();
-                            Right();
-                            Bottom();
-                            cornersList = GetGreenCorners();
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-                            //Back20 Placement
-                            BackInverted();
-                            BottomInverted();
-                            Back();
-                            Bottom();
-                            cornersList = GetGreenCorners();
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-                            BottomInverted();
-                            BottomInverted();
-                            //Front02 Placement
-                            FrontInverted();
-                            BottomInverted();
-                            Front();
-                            Bottom();
-                            cornersList = GetGreenCorners();
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-                            Bottom();
-                            //Left02 Placement
-                            LeftInverted();
-                            BottomInverted();
-                            Left();
-                            Bottom();
-                            cornersList = GetGreenCorners();
-                        }
-                        break;
-                    case "back02":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-                            Back();
-                            BottomInverted();
-                            BottomInverted();
-                            BackInverted();
-                            //front22
-                            Front();
-                            Bottom();
-                            FrontInverted();
-                            BottomInverted();
-                            cornersList = GetGreenCorners();
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-                            Back();
-                            BottomInverted();
-                            BottomInverted();
-                            BackInverted();
-                            Bottom();
-                            //right22
-                            Right();
-                            Bottom();
-                            RightInverted();
-                            BottomInverted();
-                            cornersList = GetGreenCorners();
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-                            Back();
-                            Bottom();
-                            BackInverted();
-                            //left22
-                            Left();
-                            Bottom();
-                            LeftInverted();
-                            BottomInverted();
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-                            Back();
-                            Bottom();
-                            BackInverted();
-                            BottomInverted();
-                            //Back00
-                            Back();
-                            Bottom();
-                            BackInverted();
-                            BottomInverted();
-                            cornersList = GetGreenCorners();
-                        }
-                        break;
-                    case "back22":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-                            BackInverted();
-                            BottomInverted();
-                            Back();
-                            //Right02
-                            RightInverted();
-                            BottomInverted();
-                            Right();
-                            Bottom();
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-                            BackInverted();
-                            BottomInverted();
-                            Back();
-                            Bottom();
-                            //back20
-                            BackInverted();
-                            BottomInverted();
-                            Back();
-                            Bottom();
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-                            BackInverted();
-                            BottomInverted();
-                            BottomInverted();
-                            Back();
-                            //front02
-                            FrontInverted();
-                            BottomInverted();
-                            Front();
-                            Bottom();
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-                            BackInverted();
-                            Bottom();
-                            Bottom();
-                            Back();
-                            BottomInverted();
-                            //left02
-                            LeftInverted();
-                            BottomInverted();
-                            Left();
-                            Bottom();
-                        }
-                        break;
-                    case "left00":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        break;
-                    case "left20":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        break;
-                    case "left02":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        break;
-                    case "left22":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        break;
-                    case "right00":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        break;
-                    case "right20":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        break;
-                    case "right02":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        break;
-                    case "right22":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        break;
-                    case "top00":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        break;
-                    case "top20":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        break;
-                    case "top02":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        break;
-                    case "top22":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        break;
-                    case "bottom00":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        break;
-                    case "bottom20":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        break;
-                    case "bottom02":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        break;
-                    case "bottom22":
-                        if (colors.Contains("Orange") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("White"))
-                        {
-
-                        }
-                        if (colors.Contains("Red") && colors.Contains("Yellow"))
-                        {
-
-                        }
-                        break;
+                    string[] cornerLocation = cornersList[0].Split('_');
+                    colors = cornerLocation[1].Split('|');
+                    switch (cornerLocation[0])
+                    {
+                        case "front00":
+                            if (colors.Contains("Orange") && colors.Contains("White"))
+                            {
+                                FrontInverted();
+                                BottomInverted();
+                                Front();
+                                BottomInverted();
+                                BottomInverted();
+                                RightInverted();
+                                BottomInverted();
+                                Right();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                            {
+                                FrontInverted();
+                                Bottom();
+                                Bottom();
+                                BackInverted();
+                                BottomInverted();
+                                Back();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("White"))
+                            {
+                                FrontInverted();
+                                BottomInverted();
+                                Front();
+                                Bottom();
+                                FrontInverted();
+                                BottomInverted();
+                                Front();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("Yellow"))
+                            {
+                                FrontInverted();
+                                BottomInverted();
+                                Front();
+                                LeftInverted();
+                                BottomInverted();
+                                Left();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            break;
+                        case "front20":
+                            if (colors.Contains("Orange") && colors.Contains("White"))
+                            {
+                                Front();
+                                Bottom();
+                                FrontInverted();
+                                BottomInverted();
+                                Front();
+                                Bottom();
+                                FrontInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                            {
+                                Front();
+                                Bottom();
+                                FrontInverted();
+                                Right();
+                                Bottom();
+                                RightInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("White"))
+                            {
+                                Front();
+                                BottomInverted();
+                                BottomInverted();
+                                FrontInverted();
+                                Bottom();
+                                Left();
+                                Bottom();
+                                LeftInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("Yellow"))
+                            {
+                                Front();
+                                BottomInverted();
+                                BottomInverted();
+                                FrontInverted();
+                                Back();
+                                Bottom();
+                                BackInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            break;
+                        case "front02":
+                            if (colors.Contains("Orange") && colors.Contains("White"))
+                            {
+                                Bottom();
+                                RightInverted();
+                                BottomInverted();
+                                Right();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                            {
+                                Bottom();
+                                Bottom();
+                                BackInverted();
+                                BottomInverted();
+                                Back();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("White"))
+                            {
+                                FrontInverted();
+                                BottomInverted();
+                                Front();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("Yellow"))
+                            {
+                                BottomInverted();
+                                LeftInverted();
+                                BottomInverted();
+                                Left();
+                                Bottom();
+                            }
+                            break;
+                        case "front22":
+                            if (colors.Contains("Orange") && colors.Contains("White"))
+                            {
+                                Front();
+                                Bottom();
+                                FrontInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                            {
+                                Bottom();
+                                Right();
+                                Bottom();
+                                RightInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("White"))
+                            {
+                                BottomInverted();
+                                Left();
+                                Bottom();
+                                LeftInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("Yellow"))
+                            {
+                                BottomInverted();
+                                BottomInverted();
+                                Back();
+                                Bottom();
+                                BackInverted();
+                                BottomInverted();
+                            }
+                            break;
+                        case "back00":
+                            if (colors.Contains("Orange") && colors.Contains("White"))
+                            {
+                                Bottom();
+                                Bottom();
+                                //Front22 Placement
+                                Front();
+                                Bottom();
+                                FrontInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                            {
+                                BottomInverted();
+                                //Right22 Placement
+                                Right();
+                                Bottom();
+                                RightInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("White"))
+                            {
+                                Bottom();
+                                //Left22 Placement
+                                Left();
+                                Bottom();
+                                LeftInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("Yellow"))
+                            {
+                                //Back00 Placement
+                                Back();
+                                Bottom();
+                                BackInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            break;
+                        case "back20":
+                            if (colors.Contains("Orange") && colors.Contains("White"))
+                            {
+                                BottomInverted();
+                                //Right02 Placement
+                                RightInverted();
+                                BottomInverted();
+                                Right();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                            {
+                                //Back20 Placement
+                                BackInverted();
+                                BottomInverted();
+                                Back();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("White"))
+                            {
+                                BottomInverted();
+                                BottomInverted();
+                                //Front02 Placement
+                                FrontInverted();
+                                BottomInverted();
+                                Front();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("Yellow"))
+                            {
+                                Bottom();
+                                //Left02 Placement
+                                LeftInverted();
+                                BottomInverted();
+                                Left();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            break;
+                        case "back02":
+                            if (colors.Contains("Orange") && colors.Contains("White"))
+                            {
+                                Back();
+                                BottomInverted();
+                                BottomInverted();
+                                BackInverted();
+                                //front22
+                                Front();
+                                Bottom();
+                                FrontInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                            {
+                                Back();
+                                BottomInverted();
+                                BottomInverted();
+                                BackInverted();
+                                Bottom();
+                                //right22
+                                Right();
+                                Bottom();
+                                RightInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("White"))
+                            {
+                                Back();
+                                Bottom();
+                                BackInverted();
+                                //left22
+                                Left();
+                                Bottom();
+                                LeftInverted();
+                                BottomInverted();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("Yellow"))
+                            {
+                                Back();
+                                Bottom();
+                                BackInverted();
+                                BottomInverted();
+                                //Back00
+                                Back();
+                                Bottom();
+                                BackInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            break;
+                        case "back22":
+                            if (colors.Contains("Orange") && colors.Contains("White"))
+                            {
+                                BackInverted();
+                                BottomInverted();
+                                Back();
+                                //Right02
+                                RightInverted();
+                                BottomInverted();
+                                Right();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                            {
+                                BackInverted();
+                                BottomInverted();
+                                Back();
+                                Bottom();
+                                //back20
+                                BackInverted();
+                                BottomInverted();
+                                Back();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("White"))
+                            {
+                                BackInverted();
+                                BottomInverted();
+                                BottomInverted();
+                                Back();
+                                //front02
+                                FrontInverted();
+                                BottomInverted();
+                                Front();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("Yellow"))
+                            {
+                                BackInverted();
+                                Bottom();
+                                Bottom();
+                                Back();
+                                BottomInverted();
+                                //left02
+                                LeftInverted();
+                                BottomInverted();
+                                Left();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            break;
+                        case "left00":
+                            if (colors.Contains("Orange") && colors.Contains("White"))
+                            {
+                                LeftInverted();
+                                Bottom();
+                                Bottom();
+                                Left();
+                                //right00
+                                RightInverted();
+                                BottomInverted();
+                                Right();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                            {
+                                LeftInverted();
+                                BottomInverted();
+                                Left();
+                                //back20
+                                BackInverted();
+                                BottomInverted();
+                                Back();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("White"))
+                            {
+                                LeftInverted();
+                                Bottom();
+                                Bottom();
+                                Left();
+                                BottomInverted();
+                                //front02
+                                FrontInverted();
+                                BottomInverted();
+                                Front();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("Yellow"))
+                            {
+                                LeftInverted();
+                                BottomInverted();
+                                Left();
+                                Bottom();
+                                //left02
+                                LeftInverted();
+                                BottomInverted();
+                                Left();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            break;
+                        case "left20":
+                            if (colors.Contains("Orange") && colors.Contains("White"))
+                            {
+                                Left();
+                                Bottom();
+                                LeftInverted();
+                                //front22
+                                Front();
+                                Bottom();
+                                FrontInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                            {
+                                Left();
+                                Bottom();
+                                Bottom();
+                                LeftInverted();
+                                //right22
+                                Right();
+                                Bottom();
+                                RightInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("White"))
+                            {
+                                Left();
+                                Bottom();
+                                LeftInverted();
+                                Bottom();
+                                //left22
+                                Left();
+                                Bottom();
+                                LeftInverted();
+                                Bottom();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("Yellow"))
+                            {
+                                Left();
+                                Bottom();
+                                LeftInverted();
+                                BottomInverted();
+                                BottomInverted();
+                                //back00
+                                Back();
+                                Bottom();
+                                BackInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            break;
+                        case "left02":
+                            if (colors.Contains("Orange") && colors.Contains("White"))
+                            {
+                                Bottom();
+                                Bottom();
+                                //right02
+                                RightInverted();
+                                BottomInverted();
+                                Right();
+                                Bottom();
+                            }
+                            if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                            {
+                                BottomInverted();
+                                //back20
+                                BackInverted();
+                                BottomInverted();
+                                Back();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("White"))
+                            {
+                                Bottom();
+                                //front02
+                                FrontInverted();
+                                BottomInverted();
+                                Front();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("Yellow"))
+                            {
+                                //left02
+                                LeftInverted();
+                                BottomInverted();
+                                Left();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            break;
+                        case "left22":
+                            if (colors.Contains("Orange") && colors.Contains("White"))
+                            {
+                                Bottom();
+                                //front22
+                                Front();
+                                Bottom();
+                                FrontInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                            {
+                                Bottom();
+                                Bottom();
+                                //right22
+                                Right();
+                                Bottom();
+                                RightInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("White"))
+                            {
+                                Left();
+                                Bottom();
+                                LeftInverted();
+                                Bottom();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("Yellow"))
+                            {
+                                BottomInverted();
+                                //back00
+                                Back();
+                                Bottom();
+                                BackInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            break;
+                        case "right00":
+                            if (colors.Contains("Orange") && colors.Contains("White"))
+                            {
+                                RightInverted();
+                                BottomInverted();
+                                Right();
+                                Bottom();
+                                //right02
+                                RightInverted();
+                                BottomInverted();
+                                Right();
+                                Bottom();
+                            }
+                            if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                            {
+                                RightInverted();
+                                BottomInverted();
+                                Right();
+                                Bottom();
+                                Bottom();
+                                //back20
+                                BackInverted();
+                                BottomInverted();
+                                Back();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("White"))
+                            {
+                                RightInverted();
+                                BottomInverted();
+                                Right();
+                                //front02
+                                FrontInverted();
+                                BottomInverted();
+                                Front();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("Yellow"))
+                            {
+                                RightInverted();
+                                BottomInverted();
+                                Right();
+                                BottomInverted();
+                                //left02
+                                LeftInverted();
+                                BottomInverted();
+                                Left();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            break;
+                        case "right20":
+                            if (colors.Contains("Orange") && colors.Contains("White"))
+                            {
+                                Right();
+                                BottomInverted();
+                                BottomInverted();
+                                RightInverted();
+                                Bottom();
+                                //front22
+                                Front();
+                                Bottom();
+                                FrontInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                            {
+                                Right();
+                                Bottom();
+                                RightInverted();
+                                BottomInverted();
+                                //right22
+                                Right();
+                                Bottom();
+                                RightInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("White"))
+                            {
+                                Right();
+                                Bottom();
+                                RightInverted();
+                                Bottom();
+                                //left22
+                                Left();
+                                Bottom();
+                                LeftInverted();
+                                BottomInverted(); cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("Yellow"))
+                            {
+                                Right();
+                                Bottom();
+                                RightInverted();
+                                //back00
+                                Back();
+                                Bottom();
+                                BackInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            break;
+                        case "right02":
+                            if (colors.Contains("Orange") && colors.Contains("White"))
+                            {
+                                RightInverted();
+                                BottomInverted();
+                                Right();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                            {
+                                Bottom();
+                                //back20
+                                BackInverted();
+                                BottomInverted();
+                                Back();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("White"))
+                            {
+                                BottomInverted();
+                                //front02
+                                FrontInverted();
+                                BottomInverted();
+                                Front();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("Yellow"))
+                            {
+                                BottomInverted();
+                                BottomInverted();
+                                //left02
+                                LeftInverted();
+                                BottomInverted();
+                                Left();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            break;
+                        case "right22":
+                            if (colors.Contains("Orange") && colors.Contains("White"))
+                            {
+                                BottomInverted();
+                                //front22
+                                Front();
+                                Bottom();
+                                FrontInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                            {
+                                Right();
+                                Bottom();
+                                RightInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("White"))
+                            {
+                                Bottom();
+                                Bottom();
+                                //left22
+                                Left();
+                                Bottom();
+                                LeftInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("Yellow"))
+                            {
+                                BottomInverted();
+                                //back00
+                                Back();
+                                Bottom();
+                                BackInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            break;
+                        case "top00":
+                            if (colors.Contains("Orange") && colors.Contains("White"))
+                            {
+                                Back();
+                                Bottom();
+                                BackInverted();
+                                Bottom();
+                                //right02
+                                RightInverted();
+                                BottomInverted();
+                                Right();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                            {
+                                Back();
+                                BottomInverted();
+                                BottomInverted();
+                                BackInverted();
+                                Bottom();
+                                //back20
+                                BackInverted();
+                                BottomInverted();
+                                Back();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("White"))
+                            {
+                                Back();
+                                Bottom();
+                                BackInverted();
+                                //front02
+                                FrontInverted();
+                                BottomInverted();
+                                Front();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            break;
+                        case "top20":
+                            if (colors.Contains("Orange") && colors.Contains("White"))
+                            {
+                                BackInverted();
+                                BottomInverted();
+                                Back();
+                                //right02
+                                RightInverted();
+                                BottomInverted();
+                                Right();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("White"))
+                            {
+                                BackInverted();
+                                BottomInverted();
+                                BottomInverted();
+                                Back();
+                                //left22
+                                Left();
+                                Bottom();
+                                LeftInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("Yellow"))
+                            {
+                                BackInverted();
+                                Bottom();
+                                Bottom();
+                                Back();
+                                BottomInverted();
+                                //back00
+                                Back();
+                                Bottom();
+                                BackInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            break;
+                        case "top02":
+                            if (colors.Contains("Orange") && colors.Contains("White"))
+                            {
+                                Left();
+                                Bottom();
+                                LeftInverted();
+                                //right02
+                                RightInverted();
+                                BottomInverted();
+                                Right();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                            {
+                                Left();
+                                Bottom();
+                                Bottom();
+                                LeftInverted();
+                                //back20
+                                BackInverted();
+                                BottomInverted();
+                                Back();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("Yellow"))
+                            {
+                                FrontInverted();
+                                BottomInverted();
+                                Front();
+                                //back00
+                                Back();
+                                Bottom();
+                                BackInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            break;
+                        case "top22":
+                            if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                            {
+                                Front();
+                                Bottom();
+                                FrontInverted();
+                                //back20
+                                BackInverted();
+                                BottomInverted();
+                                Back();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("White"))
+                            {
+                                RightInverted();
+                                BottomInverted();
+                                Right();
+                                //left22
+                                Left();
+                                Bottom();
+                                LeftInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("Yellow"))
+                            {
+                                RightInverted();
+                                BottomInverted();
+                                BottomInverted();
+                                Right();
+                                //back00
+                                Back();
+                                Bottom();
+                                BackInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            break;
+                        case "bottom00":
+                            if (colors.Contains("Orange") && colors.Contains("White"))
+                            {
+                                Left();
+                                BottomInverted();
+                                LeftInverted();
+                                BottomInverted();
+                                //front22
+                                Front();
+                                Bottom();
+                                FrontInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                            {
+                                Left();
+                                BottomInverted();
+                                LeftInverted();
+                                //right22
+                                Right();
+                                Bottom();
+                                RightInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("White"))
+                            {
+                                Left();
+                                BottomInverted();
+                                LeftInverted();
+                                Bottom();
+                                Bottom();
+                                //left22
+                                Left();
+                                Bottom();
+                                LeftInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("Yellow"))
+                            {
+                                Left();
+                                BottomInverted();
+                                LeftInverted();
+                                Bottom();
+                                //back00
+                                Back();
+                                Bottom();
+                                BackInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            break;
+                        case "bottom20":
+                            if (colors.Contains("Orange") && colors.Contains("White"))
+                            {
+                                RightInverted();
+                                BottomInverted();
+                                BottomInverted();
+                                Right();
+                                Bottom();
+                                //right02
+                                RightInverted();
+                                BottomInverted();
+                                Right();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                            {
+                                Front();
+                                Bottom();
+                                FrontInverted();
+                                //back20
+                                BackInverted();
+                                BottomInverted();
+                                Back();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("White"))
+                            {
+                                RightInverted();
+                                BottomInverted();
+                                BottomInverted();
+                                Right();
+                                //front02
+                                FrontInverted();
+                                BottomInverted();
+                                Front();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("Yellow"))
+                            {
+                                RightInverted();
+                                Bottom();
+                                Right();
+                                //left02
+                                LeftInverted();
+                                BottomInverted();
+                                Left();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            break;
+                        case "bottom02":
+                            if (colors.Contains("Orange") && colors.Contains("White"))
+                            {
+                                LeftInverted();
+                                Bottom();
+                                Left();
+                                //right02
+                                RightInverted();
+                                BottomInverted();
+                                Right();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                            {
+                                LeftInverted();
+                                Bottom();
+                                Left();
+                                Bottom();
+                                //back20
+                                BackInverted();
+                                BottomInverted();
+                                Back();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("White"))
+                            {
+                                LeftInverted();
+                                Bottom();
+                                Left();
+                                BottomInverted();
+                                //front02
+                                FrontInverted();
+                                BottomInverted();
+                                Front();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("Yellow"))
+                            {
+                                LeftInverted();
+                                Bottom();
+                                Left();
+                                BottomInverted();
+                                BottomInverted();
+                                //left02
+                                LeftInverted();
+                                BottomInverted();
+                                Left();
+                                Bottom();
+                                cornersList = GetGreenCorners();
+                            }
+                            break;
+                        case "bottom22":
+                            if (colors.Contains("Orange") && colors.Contains("White"))
+                            {
+                                Right();
+                                BottomInverted();
+                                RightInverted();
+                                Bottom();
+                                //front22
+                                Front();
+                                Bottom();
+                                FrontInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                            {
+                                Right();
+                                BottomInverted();
+                                RightInverted();
+                                Bottom();
+                                Bottom();
+                                //right22
+                                Right();
+                                Bottom();
+                                RightInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("White"))
+                            {
+                                Right();
+                                BottomInverted();
+                                RightInverted();
+                                //left22
+                                Left();
+                                Bottom();
+                                LeftInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            if (colors.Contains("Red") && colors.Contains("Yellow"))
+                            {
+                                Right();
+                                BottomInverted();
+                                RightInverted();
+                                BottomInverted();
+                                //back00
+                                Back();
+                                Bottom();
+                                BackInverted();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
+                            }
+                            break;
+                    }
                 }
             }
         }
@@ -806,7 +1275,7 @@ namespace Cube.ViewModel
             }
             if (left[0, 2] == "Green")
             {
-                greenCornerList.Add("left02_ +" + bottom[0, 2] + "|" + back[0, 0]);
+                greenCornerList.Add("left02_" + bottom[0, 2] + "|" + back[0, 0]);
             }
             if (left[2, 2] == "Green")
             {
