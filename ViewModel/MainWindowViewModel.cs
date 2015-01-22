@@ -31,6 +31,7 @@ namespace Cube.ViewModel
         private string[,] bottom = new string[3, 3];
         private string[,] top = new string[3, 3];
         private string currentFace = "front";
+        int lineupcenter = 0;
         private System.Windows.Visibility colorVisibility = System.Windows.Visibility.Hidden;
         public MainWindowViewModel()
         {
@@ -40,17 +41,1016 @@ namespace Cube.ViewModel
 
         public void SolveCube()
         {
+            totalMoves = 0;
             Stopwatch t = new Stopwatch();
             t.Start();
             List<string> crossPieces = FindCrossPieces();
             List<string> openCross = FindOpenCross();
+            //if (lineupcenter == 0)
+            //{
+            //    PlaceCrossPieces(openCross, crossPieces, 0);
+            //    lineupcenter++;
+            //}
+            //else
+            //{
+            //    LineUpCenter();
+            //}
             PlaceCrossPieces(openCross, crossPieces, 0);
+            int k = totalMoves;
+            LineUpCenter();
             t.Stop();
             long totalTime = t.ElapsedMilliseconds;
             int j = totalMoves;
-            totalMoves = 0;
+            FillInCorners();
         }
+        public void FillInCorners()
+        {
+            List<string> cornersList = new List<string>();
+            cornersList = GetGreenCorners();
+            while (cornersList.Count != 0)
+            {
+                string[] colors;
+                for (int i = 0; i < cornersList.Count; i++)
+                {
+                    string[] splitFace = cornersList[i].Split('_');
+                    switch (splitFace[0])
+                    {
+                        case "top00":
+                            colors = splitFace[1].Split('|');
+                            if (colors.Contains("Yellow") && colors.Contains("Red"))
+                            {
+                                cornersList.Remove("top00");
+                            }
+                            break;
+                        case "top20":
+                            colors = splitFace[1].Split('|');
+                            if (colors.Contains("Yellow") && colors.Contains("Orange"))
+                            {
+                                cornersList.Remove("top20");
+                            }
+                            break;
+                        case "top02":
+                            colors = splitFace[1].Split('|');
+                            if (colors.Contains("White") && colors.Contains("Red"))
+                            {
+                                cornersList.Remove("top02");
+                            }
+                            break;
+                        case "top22":
+                            colors = splitFace[1].Split('|');
+                            if (colors.Contains("White") && colors.Contains("Orange"))
+                            {
+                                cornersList.Remove("top22");
+                            }
+                            break;
+                    }
+                }
 
+                string[] cornerLocation = cornersList[0].Split('_');
+                colors = cornerLocation[1].Split('|');
+                switch (cornerLocation[0])
+                {
+                    case "front00":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+                            FrontInverted();
+                            BottomInverted();
+                            Front();
+                            BottomInverted();
+                            BottomInverted();
+                            RightInverted();
+                            BottomInverted();
+                            Right();
+                            Bottom();
+                            cornersList = GetGreenCorners();
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+                            FrontInverted();
+                            Bottom();
+                            Bottom();
+                            BackInverted();
+                            BottomInverted();
+                            Back();
+                            Bottom();
+                            cornersList = GetGreenCorners();
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+                            FrontInverted();
+                            BottomInverted();
+                            Front();
+                            Bottom();
+                            FrontInverted();
+                            BottomInverted();
+                            Front();
+                            Bottom();
+                            cornersList = GetGreenCorners();
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+                            FrontInverted();
+                            BottomInverted();
+                            Front();
+                            LeftInverted();
+                            BottomInverted();
+                            Left();
+                            Bottom();
+                            cornersList = GetGreenCorners();
+                        }
+                        break;
+                    case "front20":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+                            Front();
+                            Bottom();
+                            FrontInverted();
+                            BottomInverted();
+                            Front();
+                            Bottom();
+                            FrontInverted();
+                            BottomInverted();
+                            cornersList = GetGreenCorners();
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+                            Front();
+                            Bottom();
+                            FrontInverted();
+                            Right();
+                            Bottom();
+                            RightInverted();
+                            BottomInverted();
+                            cornersList = GetGreenCorners();
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+                            Front();
+                            BottomInverted();
+                            BottomInverted();
+                            FrontInverted();
+                            Bottom();
+                            Left();
+                            Bottom();
+                            LeftInverted();
+                            BottomInverted();
+                            cornersList = GetGreenCorners();
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+                            Front();
+                            BottomInverted();
+                            BottomInverted();
+                            FrontInverted();
+                            Back();
+                            Bottom();
+                            BackInverted();
+                            BottomInverted();
+                            cornersList = GetGreenCorners();
+                        }
+                        break;
+                    case "front02":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+                            Bottom();
+                            RightInverted();
+                            BottomInverted();
+                            Right();
+                            Bottom();
+                            cornersList = GetGreenCorners();
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+                            Bottom();
+                            Bottom();
+                            BackInverted();
+                            BottomInverted();
+                            Back();
+                            Bottom();
+                            cornersList = GetGreenCorners();
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+                            FrontInverted();
+                            BottomInverted();
+                            Front();
+                            Bottom();
+                            cornersList = GetGreenCorners();
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+                            BottomInverted();
+                            LeftInverted();
+                            BottomInverted();
+                            Left();
+                            Bottom();
+                        }
+                        break;
+                    case "front22":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+                            Front();
+                            Bottom();
+                            FrontInverted();
+                            BottomInverted();
+                            cornersList = GetGreenCorners();
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+                            Bottom();
+                            Right();
+                            Bottom();
+                            RightInverted();
+                            BottomInverted();
+                            cornersList = GetGreenCorners();
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+                            BottomInverted();
+                            Left();
+                            Bottom();
+                            LeftInverted();
+                            BottomInverted();
+                            cornersList = GetGreenCorners();
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+                            BottomInverted();
+                            BottomInverted();
+                            Back();
+                            Bottom();
+                            BackInverted();
+                            BottomInverted();
+                        }
+                        break;
+                    case "back00":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+                            Bottom();
+                            Bottom();
+                            //Front22 Placement
+                            Front();
+                            Bottom();
+                            FrontInverted();
+                            BottomInverted();
+                            cornersList = GetGreenCorners();
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+                            BottomInverted();
+                            //Right22 Placement
+                            Right();
+                            Bottom();
+                            RightInverted();
+                            BottomInverted();
+                            cornersList = GetGreenCorners();
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+                            Bottom();
+                            //Left22 Placement
+                            Left();
+                            Bottom();
+                            LeftInverted();
+                            BottomInverted();
+                            cornersList = GetGreenCorners();
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+                            //Back00 Placement
+                            Back();
+                            Bottom();
+                            BackInverted();
+                            BottomInverted();
+                            cornersList = GetGreenCorners();
+                        }
+                        break;
+                    case "back20":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+                            BottomInverted();
+                            //Right02 Placement
+                            RightInverted();
+                            BottomInverted();
+                            Right();
+                            Bottom();
+                            cornersList = GetGreenCorners();
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+                            //Back20 Placement
+                            BackInverted();
+                            BottomInverted();
+                            Back();
+                            Bottom();
+                            cornersList = GetGreenCorners();
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+                            BottomInverted();
+                            BottomInverted();
+                            //Front02 Placement
+                            FrontInverted();
+                            BottomInverted();
+                            Front();
+                            Bottom();
+                            cornersList = GetGreenCorners();
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+                            Bottom();
+                            //Left02 Placement
+                            LeftInverted();
+                            BottomInverted();
+                            Left();
+                            Bottom();
+                            cornersList = GetGreenCorners();
+                        }
+                        break;
+                    case "back02":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+                            Back();
+                            BottomInverted();
+                            BottomInverted();
+                            BackInverted();
+                            //front22
+                            Front();
+                            Bottom();
+                            FrontInverted();
+                            BottomInverted();
+                            cornersList = GetGreenCorners();
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+                            Back();
+                            BottomInverted();
+                            BottomInverted();
+                            BackInverted();
+                            Bottom();
+                            //right22
+                            Right();
+                            Bottom();
+                            RightInverted();
+                            BottomInverted();
+                            cornersList = GetGreenCorners();
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+                            Back();
+                            Bottom();
+                            BackInverted();
+                            //left22
+                            Left();
+                            Bottom();
+                            LeftInverted();
+                            BottomInverted();
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+                            Back();
+                            Bottom();
+                            BackInverted();
+                            BottomInverted();
+                            //Back00
+                            Back();
+                            Bottom();
+                            BackInverted();
+                            BottomInverted();
+                            cornersList = GetGreenCorners();
+                        }
+                        break;
+                    case "back22":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+                            BackInverted();
+                            BottomInverted();
+                            Back();
+                            //Right02
+                            RightInverted();
+                            BottomInverted();
+                            Right();
+                            Bottom();
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+                            BackInverted();
+                            BottomInverted();
+                            Back();
+                            Bottom();
+                            //back20
+                            BackInverted();
+                            BottomInverted();
+                            Back();
+                            Bottom();
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+                            BackInverted();
+                            BottomInverted();
+                            BottomInverted();
+                            Back();
+                            //front02
+                            FrontInverted();
+                            BottomInverted();
+                            Front();
+                            Bottom();
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+                            BackInverted();
+                            Bottom();
+                            Bottom();
+                            Back();
+                            BottomInverted();
+                            //left02
+                            LeftInverted();
+                            BottomInverted();
+                            Left();
+                            Bottom();
+                        }
+                        break;
+                    case "left00":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        break;
+                    case "left20":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        break;
+                    case "left02":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        break;
+                    case "left22":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        break;
+                    case "right00":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        break;
+                    case "right20":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        break;
+                    case "right02":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        break;
+                    case "right22":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        break;
+                    case "top00":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        break;
+                    case "top20":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        break;
+                    case "top02":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        break;
+                    case "top22":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        break;
+                    case "bottom00":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        break;
+                    case "bottom20":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        break;
+                    case "bottom02":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        break;
+                    case "bottom22":
+                        if (colors.Contains("Orange") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Orange") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("White"))
+                        {
+
+                        }
+                        if (colors.Contains("Red") && colors.Contains("Yellow"))
+                        {
+
+                        }
+                        break;
+                }
+            }
+        }
+        public List<string> GetGreenCorners()
+        {
+            List<string> greenCornerList = new List<string>();
+            if (front[0, 0] == "Green")
+            {
+                greenCornerList.Add("front00_" + left[2, 0] + "|" + top[0, 2]);
+            }
+            if (front[2, 0] == "Green")
+            {
+                greenCornerList.Add("front20_" + right[0, 0] + "|" + top[2, 2]);
+            }
+            if (front[0, 2] == "Green")
+            {
+                greenCornerList.Add("front02_" + left[2, 2] + "|" + bottom[0, 0]);
+            }
+            if (front[2, 2] == "Green")
+            {
+                greenCornerList.Add("front22_" + right[0, 2] + "|" + bottom[2, 0]);
+            }
+            if (back[0, 0] == "Green")
+            {
+                greenCornerList.Add("back00_" + left[0, 2] + "|" + bottom[0, 2]);
+            }
+            if (back[2, 0] == "Green")
+            {
+                greenCornerList.Add("back20_" + right[2, 2] + "|" + bottom[2, 2]);
+            }
+            if (back[0, 2] == "Green")
+            {
+                greenCornerList.Add("back02_" + left[0, 0] + "|" + top[0, 0]);
+            }
+            if (back[2, 2] == "Green")
+            {
+                greenCornerList.Add("back22_" + right[2, 0] + "|" + top[2, 0]);
+            }
+            if (left[0, 0] == "Green")
+            {
+                greenCornerList.Add("left00_" + top[0, 0] + "|" + back[0, 2]);
+            }
+            if (left[2, 0] == "Green")
+            {
+                greenCornerList.Add("left20_" + top[0, 2] + "|" + front[0, 0]);
+            }
+            if (left[0, 2] == "Green")
+            {
+                greenCornerList.Add("left02_ +" + bottom[0, 2] + "|" + back[0, 0]);
+            }
+            if (left[2, 2] == "Green")
+            {
+                greenCornerList.Add("left22_" + bottom[0, 0] + "|" + front[0, 2]);
+            }
+            if (right[0, 0] == "Green")
+            {
+                greenCornerList.Add("right00_" + top[2, 2] + "|" + front[2, 0]);
+            }
+            if (right[2, 0] == "Green")
+            {
+                greenCornerList.Add("right20_" + top[2, 0] + "|" + back[2, 2]);
+            }
+            if (right[0, 2] == "Green")
+            {
+                greenCornerList.Add("right02_" + bottom[2, 0] + "|" + front[2, 2]);
+            }
+            if (right[2, 2] == "Green")
+            {
+                greenCornerList.Add("right22_" + bottom[2, 2] + "|" + back[2, 0]);
+            }
+            if (top[0, 0] == "Green")
+            {
+                greenCornerList.Add("top00_" + back[0, 2] + "|" + left[0, 0]);
+            }
+            if (top[2, 0] == "Green")
+            {
+                greenCornerList.Add("top20_" + right[2, 0] + "|" + back[2, 2]);
+            }
+            if (top[0, 2] == "Green")
+            {
+                greenCornerList.Add("top02_" + front[0, 0] + "|" + left[2, 0]);
+            }
+            if (top[2, 2] == "Green")
+            {
+                greenCornerList.Add("top22_" + front[2, 0] + "|" + right[0, 0]);
+            }
+            if (bottom[0, 0] == "Green")
+            {
+                greenCornerList.Add("bottom00_" + front[0, 2] + "|" + left[2, 2]);
+            }
+            if (bottom[2, 0] == "Green")
+            {
+                greenCornerList.Add("bottom20_" + front[2, 2] + "|" + right[0, 2]);
+            }
+            if (bottom[0, 2] == "Green")
+            {
+                greenCornerList.Add("bottom02_" + back[0, 0] + "|" + left[0, 2]);
+            }
+            if (bottom[2, 2] == "Green")
+            {
+                greenCornerList.Add("bottom22_" + back[2, 0] + "|" + right[2, 2]);
+            }
+            return greenCornerList;
+        }
+        public void LineUpCenter()
+        {
+            if (front[1, 0] == "White")
+            {
+                if (right[1, 0] == "Orange")
+                {
+                    Front();
+                    Top();
+                    FrontInverted();
+                    Top();
+                    Front();
+                    Top();
+                    Top();
+                    FrontInverted();
+                    Top();
+                }
+                else if (back[1, 2] == "Yellow")
+                {
+                    Right();
+                    Top();
+                    RightInverted();
+                    Top();
+                    Right();
+                    Top();
+                    Top();
+                    RightInverted();
+                    //Top();
+                    LineUpCenter();
+                }
+                else if (left[1, 0] == "Red")
+                {
+                    Left();
+                    Top();
+                    LeftInverted();
+                    Top();
+                    Left();
+                    Top();
+                    Top();
+                    LeftInverted();
+                    Top();
+                }
+                else
+                {
+                    Top();
+                    LineUpCenter();
+                }
+            }
+            else if (right[1, 0] == "Orange")
+            {
+                if (back[1, 2] == "Yellow")
+                {
+                    Right();
+                    Top();
+                    RightInverted();
+                    Top();
+                    Right();
+                    Top();
+                    Top();
+                    RightInverted();
+                    Top();
+                }
+                else if (left[1, 0] == "Red")
+                {
+                    Front();
+                    Top();
+                    FrontInverted();
+                    Top();
+                    Front();
+                    Top();
+                    Top();
+                    FrontInverted();
+                    //Top();
+                    LineUpCenter();
+                }
+                else if (front[1, 0] == "White")
+                {
+                    Front();
+                    Top();
+                    FrontInverted();
+                    Top();
+                    Front();
+                    Top();
+                    Top();
+                    FrontInverted();
+                    Top();
+                }
+                else
+                {
+                    Top();
+                    LineUpCenter();
+                }
+            }
+            else if (back[1, 2] == "Yellow")
+            {
+                if (left[1, 0] == "Red")
+                {
+                    Back();
+                    Top();
+                    BackInverted();
+                    Top();
+                    Back();
+                    Top();
+                    Top();
+                    BackInverted();
+                    Top();
+                }
+                else if (front[1, 0] == "White")
+                {
+                    Right();
+                    Top();
+                    RightInverted();
+                    Top();
+                    Right();
+                    Top();
+                    Top();
+                    RightInverted();
+                    //Top();
+                    LineUpCenter();
+                }
+                else if (right[1, 0] == "Orange")
+                {
+                    Right();
+                    Top();
+                    RightInverted();
+                    Top();
+                    Right();
+                    Top();
+                    Top();
+                    RightInverted();
+                    Top();
+                }
+                else
+                {
+                    Top();
+                    LineUpCenter();
+                }
+            }
+            else if (left[1, 0] == "Red")
+            {
+                if (front[1, 0] == "White")
+                {
+                    Left();
+                    Top();
+                    LeftInverted();
+                    Top();
+                    Left();
+                    Top();
+                    Top();
+                    LeftInverted();
+                    Top();
+                }
+                else if (right[1, 0] == "Orange")
+                {
+                    Front();
+                    Top();
+                    FrontInverted();
+                    Top();
+                    Front();
+                    Top();
+                    Top();
+                    FrontInverted();
+                    //Top();
+                    LineUpCenter();
+                }
+                else if (back[1, 2] == "Yellow")
+                {
+                    Back();
+                    Top();
+                    BackInverted();
+                    Top();
+                    Back();
+                    Top();
+                    Top();
+                    BackInverted();
+                    Top();
+                }
+                else
+                {
+                    Top();
+                    LineUpCenter();
+                }
+            }
+            else
+            {
+                Top();
+                LineUpCenter();
+            }
+            RefreshScreen(currentFace);
+        }
         public void PlaceCrossPieces(List<string> openCross, List<string> crossPieces, int crossListNum)
         {
             int iterations = 0;
@@ -63,39 +1063,39 @@ namespace Cube.ViewModel
                     switch (crossPieces[crossListNum])
                     {
                         case "front[1,0]":
-                            FrontInverted(); totalMoves++;
-                            Top(); totalMoves++;
-                            LeftInverted(); totalMoves++;
-                            TopInverted(); totalMoves++;
+                            FrontInverted();
+                            Top();
+                            LeftInverted();
+                            TopInverted();
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
                             break;
                         case "front[1,2]":
                             if (top[1, 2] != "Green")
                             {
-                                Front(); totalMoves++;
-                                Top(); totalMoves++;
-                                LeftInverted(); totalMoves++;
-                                TopInverted(); totalMoves++;
+                                Front();
+                                Top();
+                                LeftInverted();
+                                TopInverted();
                             }
                             else if (openCross.Contains("top[1,0]"))
                             {
-                                Front(); totalMoves++;
-                                TopInverted(); totalMoves++;
-                                LeftInverted(); totalMoves++;
-                                Top(); totalMoves++;
+                                Front();
+                                TopInverted();
+                                LeftInverted();
+                                Top();
                             }
                             else if (openCross.Contains("top[0,1]"))
                             {
-                                Front(); totalMoves++;
-                                LeftInverted(); totalMoves++;
-                                FrontInverted(); totalMoves++;
+                                Front();
+                                LeftInverted();
+                                FrontInverted();
                             }
                             else if (openCross.Contains("top[2,1]"))
                             {
-                                FrontInverted(); totalMoves++;
-                                Right(); totalMoves++;
-                                Front(); totalMoves++;
+                                FrontInverted();
+                                Right();
+                                Front();
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -103,23 +1103,23 @@ namespace Cube.ViewModel
                         case "front[0,1]":
                             if (top[0, 1] != "Green")
                             {
-                                LeftInverted(); totalMoves++;
+                                LeftInverted();
                             }
                             else if (openCross.Contains("top[1,0]"))
                             {
-                                TopInverted(); totalMoves++;
-                                LeftInverted(); totalMoves++;
+                                TopInverted();
+                                LeftInverted();
                             }
                             else if (openCross.Contains("top[1,2]"))
                             {
-                                Top(); totalMoves++;
-                                LeftInverted(); totalMoves++;
+                                Top();
+                                LeftInverted();
                             }
                             else if (openCross.Contains("top[2,1]"))
                             {
-                                Top(); totalMoves++;
-                                Top(); totalMoves++;
-                                LeftInverted(); totalMoves++;
+                                Top();
+                                Top();
+                                LeftInverted();
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -127,23 +1127,23 @@ namespace Cube.ViewModel
                         case "front[2,1]":
                             if (top[2, 1] != "Green")
                             {
-                                Right(); totalMoves++;
+                                Right();
                             }
                             else if (openCross.Contains("top[1,0]"))
                             {
-                                Top(); totalMoves++;
-                                Right(); totalMoves++;
+                                Top();
+                                Right();
                             }
                             else if (openCross.Contains("top[1,2]"))
                             {
-                                TopInverted(); totalMoves++;
-                                Right(); totalMoves++;
+                                TopInverted();
+                                Right();
                             }
                             else if (openCross.Contains("top[0,1]"))
                             {
-                                Top(); totalMoves++;
-                                Top(); totalMoves++;
-                                Right(); totalMoves++;
+                                Top();
+                                Top();
+                                Right();
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -151,62 +1151,62 @@ namespace Cube.ViewModel
                         case "back[1,0]":
                             if (top[1, 0] != "Green")
                             {
-                                Back(); totalMoves++;
-                                Top(); totalMoves++;
-                                RightInverted(); totalMoves++;
-                                TopInverted(); totalMoves++;
+                                Back();
+                                Top();
+                                RightInverted();
+                                TopInverted();
                             }
                             else if (openCross.Contains("top[2,1]"))
                             {
-                                Back(); totalMoves++;
-                                RightInverted(); totalMoves++;
-                                BackInverted(); totalMoves++;
+                                Back();
+                                RightInverted();
+                                BackInverted();
                             }
                             else if (openCross.Contains("top[1,2]"))
                             {
-                                Back(); totalMoves++;
-                                TopInverted(); totalMoves++;
-                                RightInverted(); totalMoves++;
-                                Top(); totalMoves++;
-                                BackInverted(); totalMoves++;
+                                Back();
+                                TopInverted();
+                                RightInverted();
+                                Top();
+                                BackInverted();
                             }
                             else if (openCross.Contains("top[0,1]"))
                             {
-                                BackInverted(); totalMoves++;
-                                Left(); totalMoves++;
-                                Back(); totalMoves++;
+                                BackInverted();
+                                Left();
+                                Back();
                             }
-                            openCross = FindOpenCross(); totalMoves++;
-                            crossPieces = FindCrossPieces(); totalMoves++;
+                            openCross = FindOpenCross();
+                            crossPieces = FindCrossPieces();
                             break;
                         case "back[1,2]":
-                            BackInverted(); totalMoves++;
-                            Top(); totalMoves++;
-                            RightInverted(); totalMoves++;
-                            TopInverted(); totalMoves++;
+                            BackInverted();
+                            Top();
+                            RightInverted();
+                            TopInverted();
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
                             break;
                         case "back[0,1]":
                             if (top[0, 1] != "Green")
                             {
-                                Left(); totalMoves++;
+                                Left();
                             }
                             else if (openCross.Contains("top[2,1]"))
                             {
-                                Top(); totalMoves++;
-                                Top(); totalMoves++;
-                                Left(); totalMoves++;
+                                Top();
+                                Top();
+                                Left();
                             }
                             else if (openCross.Contains("top[1,2]"))
                             {
-                                Top(); totalMoves++;
-                                Left(); totalMoves++;
+                                Top();
+                                Left();
                             }
                             else if (openCross.Contains("top[1,0]"))
                             {
-                                TopInverted(); totalMoves++;
-                                Left(); totalMoves++;
+                                TopInverted();
+                                Left();
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -214,62 +1214,62 @@ namespace Cube.ViewModel
                         case "back[2,1]":
                             if (top[2, 1] != "Green")
                             {
-                                RightInverted(); totalMoves++;
+                                RightInverted();
                             }
                             else if (openCross.Contains("top[0,1]"))
                             {
-                                Top(); totalMoves++;
-                                Top(); totalMoves++;
-                                RightInverted(); totalMoves++;
+                                Top();
+                                Top();
+                                RightInverted();
                             }
                             else if (openCross.Contains("top[1,2]"))
                             {
-                                TopInverted(); totalMoves++;
-                                RightInverted(); totalMoves++;
+                                TopInverted();
+                                RightInverted();
                             }
                             else if (openCross.Contains("top[1,0]"))
                             {
-                                Top(); totalMoves++;
-                                RightInverted(); totalMoves++;
+                                Top();
+                                RightInverted();
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
                             break;
                         case "left[1,0]":
-                            Left(); totalMoves++;
-                            TopInverted(); totalMoves++;
-                            Front(); totalMoves++;
-                            Top(); totalMoves++;
+                            Left();
+                            TopInverted();
+                            Front();
+                            Top();
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
                             break;
                         case "left[1,2]":
                             if (top[0, 1] != "Green")
                             {
-                                LeftInverted(); totalMoves++;
-                                TopInverted(); totalMoves++;
-                                Front(); totalMoves++;
-                                Top(); totalMoves++;
+                                LeftInverted();
+                                TopInverted();
+                                Front();
+                                Top();
                             }
                             else if (openCross.Contains("top[2,1]"))
                             {
-                                LeftInverted(); totalMoves++;
-                                Top(); totalMoves++;
-                                Front(); totalMoves++;
-                                TopInverted(); totalMoves++;
-                                Left(); totalMoves++;
+                                LeftInverted();
+                                Top();
+                                Front();
+                                TopInverted();
+                                Left();
                             }
                             else if (openCross.Contains("top[1,2]"))
                             {
-                                LeftInverted(); totalMoves++;
-                                Front(); totalMoves++;
-                                Left(); totalMoves++;
+                                LeftInverted();
+                                Front();
+                                Left();
                             }
                             else if (openCross.Contains("top[1,0]"))
                             {
-                                Left(); totalMoves++;
-                                BackInverted(); totalMoves++;
-                                LeftInverted(); totalMoves++;
+                                Left();
+                                BackInverted();
+                                LeftInverted();
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -277,23 +1277,23 @@ namespace Cube.ViewModel
                         case "left[0,1]":
                             if (top[1, 0] != "Green")
                             {
-                                BackInverted(); totalMoves++;
+                                BackInverted();
                             }
                             else if (openCross.Contains("top[2,1]"))
                             {
-                                TopInverted(); totalMoves++;
-                                BackInverted(); totalMoves++;
+                                TopInverted();
+                                BackInverted();
                             }
                             else if (openCross.Contains("top[1,2]"))
                             {
-                                Top(); totalMoves++;
-                                Top(); totalMoves++;
-                                BackInverted(); totalMoves++;
+                                Top();
+                                Top();
+                                BackInverted();
                             }
                             else if (openCross.Contains("top[0,1]"))
                             {
-                                Top(); totalMoves++;
-                                BackInverted(); totalMoves++;
+                                Top();
+                                BackInverted();
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -301,62 +1301,62 @@ namespace Cube.ViewModel
                         case "left[2,1]":
                             if (top[1, 2] != "Green")
                             {
-                                Front(); totalMoves++;
+                                Front();
                             }
                             else if (openCross.Contains("top[1,0]"))
                             {
-                                Top(); totalMoves++;
-                                Top(); totalMoves++;
-                                Front(); totalMoves++;
+                                Top();
+                                Top();
+                                Front();
                             }
                             else if (openCross.Contains("top[2,1]"))
                             {
-                                Top(); totalMoves++;
-                                Front(); totalMoves++;
+                                Top();
+                                Front();
                             }
                             else if (openCross.Contains("top[0,1]"))
                             {
-                                TopInverted(); totalMoves++;
-                                Front(); totalMoves++;
+                                TopInverted();
+                                Front();
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
                             break;
                         case "right[1,0]":
-                            RightInverted(); totalMoves++;
-                            Top(); totalMoves++;
-                            FrontInverted(); totalMoves++;
-                            TopInverted(); totalMoves++;
+                            RightInverted();
+                            Top();
+                            FrontInverted();
+                            TopInverted();
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
                             break;
                         case "right[1,2]":
                             if (top[2, 1] != "Green")
                             {
-                                Right(); totalMoves++;
-                                Top(); totalMoves++;
-                                FrontInverted(); totalMoves++;
-                                TopInverted(); totalMoves++;
-                                RightInverted(); totalMoves++;
+                                Right();
+                                Top();
+                                FrontInverted();
+                                TopInverted();
+                                RightInverted();
                             }
                             else if (openCross.Contains("top[1,0]"))
                             {
-                                RightInverted(); totalMoves++;
-                                Back(); totalMoves++;
-                                Right(); totalMoves++;
+                                RightInverted();
+                                Back();
+                                Right();
                             }
                             else if (openCross.Contains("top[1,2]"))
                             {
-                                Right(); totalMoves++;
-                                FrontInverted(); totalMoves++;
-                                RightInverted(); totalMoves++;
+                                Right();
+                                FrontInverted();
+                                RightInverted();
                             }
                             else if (openCross.Contains("top[0,1]"))
                             {
-                                TopInverted(); totalMoves++;
-                                Right(); totalMoves++;
-                                FrontInverted(); totalMoves++;
-                                RightInverted(); totalMoves++;
+                                TopInverted();
+                                Right();
+                                FrontInverted();
+                                RightInverted();
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -364,23 +1364,23 @@ namespace Cube.ViewModel
                         case "right[0,1]":
                             if (top[1, 2] != "Green")
                             {
-                                FrontInverted(); totalMoves++;
+                                FrontInverted();
                             }
                             else if (openCross.Contains("top[1,0]"))
                             {
-                                Top(); totalMoves++;
-                                Top(); totalMoves++;
-                                FrontInverted(); totalMoves++;
+                                Top();
+                                Top();
+                                FrontInverted();
                             }
                             else if (openCross.Contains("top[2,1]"))
                             {
-                                Top(); totalMoves++;
-                                FrontInverted(); totalMoves++;
+                                Top();
+                                FrontInverted();
                             }
                             else if (openCross.Contains("top[0,1]"))
                             {
-                                TopInverted(); totalMoves++;
-                                FrontInverted(); totalMoves++;
+                                TopInverted();
+                                FrontInverted();
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -388,23 +1388,23 @@ namespace Cube.ViewModel
                         case "right[2,1]":
                             if (top[1, 0] != "Green")
                             {
-                                Back(); totalMoves++;
+                                Back();
                             }
                             else if (openCross.Contains("top[1,2]"))
                             {
-                                Top(); totalMoves++;
-                                Top(); totalMoves++;
-                                Back(); totalMoves++;
+                                Top();
+                                Top();
+                                Back();
                             }
                             else if (openCross.Contains("top[2,1]"))
                             {
-                                TopInverted(); totalMoves++;
-                                Back(); totalMoves++;
+                                TopInverted();
+                                Back();
                             }
                             else if (openCross.Contains("top[0,1]"))
                             {
-                                Top(); totalMoves++;
-                                Back(); totalMoves++;
+                                Top();
+                                Back();
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -412,27 +1412,27 @@ namespace Cube.ViewModel
                         case "bottom[1,0]":
                             if (top[1, 2] != "Green")
                             {
-                                Front(); totalMoves++;
-                                Front(); totalMoves++;
+                                Front();
+                                Front();
                             }
                             else if (openCross.Contains("top[1,0]"))
                             {
-                                Bottom(); totalMoves++;
-                                Bottom(); totalMoves++;
-                                Back(); totalMoves++;
-                                Back(); totalMoves++;
+                                Bottom();
+                                Bottom();
+                                Back();
+                                Back();
                             }
                             else if (openCross.Contains("top[2,1]"))
                             {
-                                Bottom(); totalMoves++;
-                                Right(); totalMoves++;
-                                Right(); totalMoves++;
+                                Bottom();
+                                Right();
+                                Right();
                             }
                             else if (openCross.Contains("top[0,1]"))
                             {
-                                BottomInverted(); totalMoves++;
-                                Left(); totalMoves++;
-                                Left(); totalMoves++;
+                                BottomInverted();
+                                Left();
+                                Left();
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -440,27 +1440,27 @@ namespace Cube.ViewModel
                         case "bottom[1,2]":
                             if (top[1, 0] != "Green")
                             {
-                                Back(); totalMoves++;
-                                Back(); totalMoves++;
+                                Back();
+                                Back();
                             }
                             else if (openCross.Contains("top[1,2]"))
                             {
-                                Bottom(); totalMoves++;
-                                Bottom(); totalMoves++;
-                                Front(); totalMoves++;
-                                Front(); totalMoves++;
+                                Bottom();
+                                Bottom();
+                                Front();
+                                Front();
                             }
                             else if (openCross.Contains("top[2,1]"))
                             {
-                                BottomInverted(); totalMoves++;
-                                Right(); totalMoves++;
-                                Right(); totalMoves++;
+                                BottomInverted();
+                                Right();
+                                Right();
                             }
                             else if (openCross.Contains("top[0,1]"))
                             {
-                                Bottom(); totalMoves++;
-                                Left(); totalMoves++;
-                                Left(); totalMoves++;
+                                Bottom();
+                                Left();
+                                Left();
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -468,27 +1468,27 @@ namespace Cube.ViewModel
                         case "bottom[0,1]":
                             if (top[0, 1] != "Green")
                             {
-                                Left(); totalMoves++;
-                                Left(); totalMoves++;
+                                Left();
+                                Left();
                             }
                             else if (openCross.Contains("top[1,2]"))
                             {
-                                Bottom(); totalMoves++;
-                                Front(); totalMoves++;
-                                Front(); totalMoves++;
+                                Bottom();
+                                Front();
+                                Front();
                             }
                             else if (openCross.Contains("top[2,1]"))
                             {
-                                Bottom(); totalMoves++;
-                                Bottom(); totalMoves++;
-                                Right(); totalMoves++;
-                                Right(); totalMoves++;
+                                Bottom();
+                                Bottom();
+                                Right();
+                                Right();
                             }
                             else if (openCross.Contains("top[1,0]"))
                             {
-                                BottomInverted(); totalMoves++;
-                                Back(); totalMoves++;
-                                Back(); totalMoves++;
+                                BottomInverted();
+                                Back();
+                                Back();
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -496,27 +1496,27 @@ namespace Cube.ViewModel
                         case "bottom[2,1]":
                             if (top[2, 1] != "Green")
                             {
-                                Right(); totalMoves++;
-                                Right(); totalMoves++;
+                                Right();
+                                Right();
                             }
                             else if (openCross.Contains("top[1,2]"))
                             {
-                                BottomInverted(); totalMoves++;
-                                Front(); totalMoves++;
-                                Front(); totalMoves++;
+                                BottomInverted();
+                                Front();
+                                Front();
                             }
                             else if (openCross.Contains("top[0,1]"))
                             {
-                                Bottom(); totalMoves++;
-                                Bottom(); totalMoves++;
-                                Left(); totalMoves++;
-                                Left(); totalMoves++;
+                                Bottom();
+                                Bottom();
+                                Left();
+                                Left();
                             }
                             else if (openCross.Contains("top[1,0]"))
                             {
-                                Bottom(); totalMoves++;
-                                Back(); totalMoves++;
-                                Back(); totalMoves++;
+                                Bottom();
+                                Back();
+                                Back();
                             }
                             openCross = FindOpenCross();
                             crossPieces = FindCrossPieces();
@@ -633,7 +1633,7 @@ namespace Cube.ViewModel
         }
         public void Right()
         {
-
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -672,7 +1672,7 @@ namespace Cube.ViewModel
 
         public void RightInverted()
         {
-
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -711,7 +1711,7 @@ namespace Cube.ViewModel
 
         public void LeftInverted()
         {
-
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -749,7 +1749,7 @@ namespace Cube.ViewModel
         }
         public void Left()
         {
-
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -788,7 +1788,7 @@ namespace Cube.ViewModel
 
         public void Top()
         {
-
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -827,7 +1827,7 @@ namespace Cube.ViewModel
 
         public void TopInverted()
         {
-
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -866,7 +1866,7 @@ namespace Cube.ViewModel
 
         public void BottomInverted()
         {
-
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -905,7 +1905,7 @@ namespace Cube.ViewModel
 
         public void Bottom()
         {
-
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -944,7 +1944,7 @@ namespace Cube.ViewModel
 
         public void Front()
         {
-
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -983,6 +1983,7 @@ namespace Cube.ViewModel
 
         public void FrontInverted()
         {
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -1021,6 +2022,7 @@ namespace Cube.ViewModel
 
         public void BackInverted()
         {
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -1059,6 +2061,7 @@ namespace Cube.ViewModel
 
         public void Back()
         {
+            totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
             string[,] tempBack = CopyFace(back);
@@ -1371,6 +2374,7 @@ namespace Cube.ViewModel
                 {
                     ColorVisibility = System.Windows.Visibility.Hidden;
                     ScrambleCube();
+                    lineupcenter = 0;
                 });
             }
         }
@@ -1691,6 +2695,7 @@ namespace Cube.ViewModel
             SetOriginalColor(top, "Green");
             SetOriginalColor(bottom, "Blue");
             ShowFace(front);
+            lineupcenter = 0;
         }
         public void ScrambleCube()
         {
