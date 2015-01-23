@@ -64,6 +64,239 @@ namespace Cube.ViewModel
             FillInCorners();
             FillSecondLayer();
             CreateFinalCross();
+            LineUpCenter2();
+            FillLastCorners();
+            FinishCube();
+        }
+        public void FinishCube()
+        {
+            while (front[0, 2] != "White")
+            {
+                if (front[0, 2] != "White")
+                {
+                    LeftInverted();
+                    Top();
+                    Left();
+                    TopInverted();
+                }
+            }
+            BottomInverted();
+            while (front[0, 2] != "Orange")
+            {
+                if (front[0, 2] != "Orange")
+                {
+                    LeftInverted();
+                    Top();
+                    Left();
+                    TopInverted();
+                }
+            }
+            BottomInverted();
+            while (front[0, 2] != "Yellow")
+            {
+                if (front[0, 2] != "Yellow")
+                {
+                    LeftInverted();
+                    Top();
+                    Left();
+                    TopInverted();
+                }
+            }
+            BottomInverted();
+            while (front[0, 2] != "Red")
+            {
+                if (front[0, 2] != "Red")
+                {
+                    LeftInverted();
+                    Top();
+                    Left();
+                    TopInverted();
+                }
+            }
+            int interval = 0;
+            while (front[2, 2] != "White" || interval > 1000)
+            {
+                interval++;
+                if (front[2, 2] != "White")
+                {
+                    BottomInverted();
+                }
+            }
+        }
+        
+        public void FillLastCorners()
+        {
+            bool checkCorners = CheckCornerPlacement();
+            while (!checkCorners)
+            {
+                checkCorners = CheckCornerPlacement();
+            }
+        }
+        public void ShuffleCorners(string face)
+        {
+            switch (face)
+            {
+                case "front":
+                    Bottom();
+                    Left();
+                    BottomInverted();
+                    RightInverted();
+                    Bottom();
+                    LeftInverted();
+                    BottomInverted();
+                    Right();
+                    break;
+                case "back":
+                    Bottom();
+                    Right();
+                    BottomInverted();
+                    LeftInverted();
+                    Bottom();
+                    RightInverted();
+                    BottomInverted();
+                    Left();
+                    break;
+                case "left":
+                    Bottom();
+                    Back();
+                    BottomInverted();
+                    FrontInverted();
+                    Bottom();
+                    BackInverted();
+                    BottomInverted();
+                    Front();
+                    break;
+                case "right":
+                    Bottom();
+                    Front();
+                    BottomInverted();
+                    BackInverted();
+                    Bottom();
+                    FrontInverted();
+                    BottomInverted();
+                    Back();
+                    break;
+            }
+        }
+        public bool CheckCornerPlacement()
+        {
+            string whiteRedCorner = front[0, 2] + "|" + left[2, 2] + "|" + bottom[0, 0];
+            string[] whiteRedCornerSplit = whiteRedCorner.Split('|');
+
+            string whiteOrangeCorner = front[2, 2] + "|" + right[0, 2] + "|" + bottom[2, 0];
+            string[] whiteOrangeCornerSplit = whiteOrangeCorner.Split('|');
+
+            string yellowOrangeCorner = back[2, 0] + "|" + right[2, 2] + "|" + bottom[2, 2];
+            string[] yellowOrangeCornerSplit = yellowOrangeCorner.Split('|');
+
+            string yellowRedCorner = back[0, 0] + "|" + left[0, 2] + "|" + bottom[0, 2];
+            string[] yellowRedCornerSplit = yellowRedCorner.Split('|');
+
+            if (whiteRedCornerSplit.Contains("Red") && whiteRedCornerSplit.Contains("Blue") && whiteRedCornerSplit.Contains("White"))
+            {
+                if (whiteOrangeCornerSplit.Contains("Orange") && whiteOrangeCornerSplit.Contains("Blue") && whiteOrangeCornerSplit.Contains("White"))
+                {
+                    if (yellowOrangeCornerSplit.Contains("Orange") && yellowOrangeCornerSplit.Contains("Blue") && yellowOrangeCornerSplit.Contains("Yellow"))
+                    {
+                        if (yellowRedCornerSplit.Contains("Red") && yellowRedCornerSplit.Contains("Blue") && yellowRedCornerSplit.Contains("Yellow"))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            ShuffleCorners("front");
+                        }
+                    }
+                    else
+                    {
+                        ShuffleCorners("front");
+                    }
+                }
+                else
+                {
+                    ShuffleCorners("front");
+                }
+            }
+            else if (whiteOrangeCornerSplit.Contains("Orange") && whiteOrangeCornerSplit.Contains("Blue") && whiteOrangeCornerSplit.Contains("White"))
+            {
+                if (whiteRedCornerSplit.Contains("Red") && whiteRedCornerSplit.Contains("Blue") && whiteRedCornerSplit.Contains("White"))
+                {
+                    if (yellowOrangeCornerSplit.Contains("Orange") && yellowOrangeCornerSplit.Contains("Blue") && yellowOrangeCornerSplit.Contains("Yellow"))
+                    {
+                        if (yellowRedCornerSplit.Contains("Red") && yellowRedCornerSplit.Contains("Blue") && yellowRedCornerSplit.Contains("Yellow"))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            ShuffleCorners("right");
+                        }
+                    }
+                    else
+                    {
+                        ShuffleCorners("right");
+                    }
+                }
+                else
+                {
+                    ShuffleCorners("right");
+                }
+            }
+            else if (yellowOrangeCornerSplit.Contains("Orange") && yellowOrangeCornerSplit.Contains("Blue") && yellowOrangeCornerSplit.Contains("Yellow"))
+            {
+                if (whiteRedCornerSplit.Contains("Red") && whiteRedCornerSplit.Contains("Blue") && whiteRedCornerSplit.Contains("White"))
+                {
+                    if (whiteOrangeCornerSplit.Contains("Orange") && whiteOrangeCornerSplit.Contains("Blue") && whiteOrangeCornerSplit.Contains("White"))
+                    {
+                        if (yellowRedCornerSplit.Contains("Red") && yellowRedCornerSplit.Contains("Blue") && yellowRedCornerSplit.Contains("Yellow"))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            ShuffleCorners("back");
+                        }
+                    }
+                    else
+                    {
+                        ShuffleCorners("back");
+                    }
+                }
+                else
+                {
+                    ShuffleCorners("back");
+                }
+            }
+            else if (yellowRedCornerSplit.Contains("Red") && yellowRedCornerSplit.Contains("Blue") && yellowRedCornerSplit.Contains("Yellow"))
+            {
+                if (whiteRedCornerSplit.Contains("Red") && whiteRedCornerSplit.Contains("Blue") && whiteRedCornerSplit.Contains("White"))
+                {
+                    if (whiteOrangeCornerSplit.Contains("Orange") && whiteOrangeCornerSplit.Contains("Blue") && whiteOrangeCornerSplit.Contains("White"))
+                    {
+                        if (yellowOrangeCornerSplit.Contains("Orange") && yellowOrangeCornerSplit.Contains("Blue") && yellowOrangeCornerSplit.Contains("Yellow"))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            ShuffleCorners("left");
+                        }
+                    }
+                    else
+                    {
+                        ShuffleCorners("left");
+                    }
+                }
+                else
+                {
+                    ShuffleCorners("left");
+                }
+            }
+            else
+            {
+                ShuffleCorners("front");
+            }
+            return false;
         }
         public void CreateFinalCross()
         {
@@ -125,7 +358,7 @@ namespace Cube.ViewModel
         }
         public string DetectAlgorithmFace()
         {
-            if ((bottom[1, 2] == "Blue" && bottom[2, 1] == "Blue") || (bottom[2,1] == "Blue" && bottom[0,1] == "Blue"))
+            if ((bottom[0, 1] == "Blue" && bottom[1, 0] == "Blue") || (bottom[2, 1] == "Blue" && bottom[0, 1] == "Blue"))
             {
                 return "front";
             }
@@ -133,11 +366,11 @@ namespace Cube.ViewModel
             {
                 return "left";
             }
-            if ((bottom[1, 0] == "Blue" && bottom[1,2] == "Blue"))
+            if ((bottom[0, 1] == "Blue" && bottom[1, 2] == "Blue"))
             {
                 return "right";
             }
-            if ((bottom[0, 1] == "Blue" && bottom[1, 0] == "Blue"))
+            if ((bottom[1, 2] == "Blue" && bottom[2, 1] == "Blue"))
             {
                 return "back";
             }
@@ -220,7 +453,7 @@ namespace Cube.ViewModel
                 BackInverted();
                 Bottom();
                 Back();
-            } 
+            }
         }
         public void FillLayers(List<string> detectCubes)
         {
@@ -2048,6 +2281,23 @@ namespace Cube.ViewModel
             }
             return false;
         }
+        public bool CheckLineUpCenter2()
+        {
+            if (front[1, 2] == "White")
+            {
+                if (left[1, 2] == "Red")
+                {
+                    if (right[1, 2] == "Orange")
+                    {
+                        if (back[1, 0] == "Yellow")
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
         public void LineUpCenter()
         {
             bool lineUpCenter = CheckLineUpCenter();
@@ -2078,7 +2328,7 @@ namespace Cube.ViewModel
                         Top();
                         RightInverted();
                         //Top();
-                       // LineUpCenter();
+                        // LineUpCenter();
                     }
                     else if (left[1, 0] == "Red")
                     {
@@ -2095,7 +2345,7 @@ namespace Cube.ViewModel
                     else
                     {
                         Top();
-                       // LineUpCenter();
+                        // LineUpCenter();
                     }
                 }
                 else if (right[1, 0] == "Orange")
@@ -2239,6 +2489,198 @@ namespace Cube.ViewModel
                     //LineUpCenter();
                 }
                 lineUpCenter = CheckLineUpCenter();
+            }
+            RefreshScreen(currentFace);
+        }
+        public void LineUpCenter2()
+        {
+            bool lineUpCenter = CheckLineUpCenter2();
+            while (!lineUpCenter)
+            {
+                if (front[1, 2] == "White")
+                {
+                    if (right[1, 2] == "Orange")//good
+                    {
+                        Right();
+                        Bottom();
+                        RightInverted();
+                        Bottom();
+                        Right();
+                        Bottom();
+                        Bottom();
+                        RightInverted();
+                        Bottom();
+                    }
+                    else if (back[1, 0] == "Yellow")//good
+                    {
+                        Left();
+                        Bottom();
+                        LeftInverted();
+                        Bottom();
+                        Left();
+                        Bottom();
+                        Bottom();
+                        LeftInverted();
+                        //Bottom();
+                        //Top();
+                        // LineUpCenter();
+                    }
+                    else if (left[1, 2] == "Red")//good
+                    {
+                        Front();
+                        Bottom();
+                        FrontInverted();
+                        Bottom();
+                        Front();
+                        Bottom();
+                        Bottom();
+                        FrontInverted();
+                        Bottom();
+                    }
+                    else
+                    {
+                        Bottom();
+                        // LineUpCenter();
+                    }
+                }
+                else if (right[1, 2] == "Orange")
+                {
+                    if (back[1, 0] == "Yellow")//good
+                    {
+                        Back();
+                        Bottom();
+                        BackInverted();
+                        Bottom();
+                        Back();
+                        Bottom();
+                        Bottom();
+                        BackInverted();
+                        Bottom();
+                    }
+                    else if (left[1, 2] == "Red")//good
+                    {
+                        Back();
+                        Bottom();
+                        BackInverted();
+                        Bottom();
+                        Back();
+                        Bottom();
+                        Bottom();
+                        BackInverted();
+                        //Bottom();
+                    }
+                    else if (front[1, 2] == "White")//good
+                    {
+                        Left();
+                        Bottom();
+                        LeftInverted();
+                        Bottom();
+                        Left();
+                        Bottom();
+                        Bottom();
+                        LeftInverted();
+                        Bottom();
+                    }
+                    else
+                    {
+                        Bottom();
+                        //LineUpCenter();
+                    }
+                }
+                else if (back[1, 0] == "Yellow")
+                {//
+                    if (left[1, 2] == "Red")
+                    {
+                        Left();
+                        Bottom();
+                        LeftInverted();
+                        Bottom();
+                        Left();
+                        Bottom();
+                        Bottom();
+                        LeftInverted();
+                        Bottom();
+                    }
+                    else if (front[1, 2] == "White")//good
+                    {
+                        Left();
+                        Bottom();
+                        LeftInverted();
+                        Bottom();
+                        Left();
+                        Bottom();
+                        Bottom();
+                        LeftInverted();
+                        //Top();
+                        //LineUpCenter();
+                    }
+                    else if (right[1, 2] == "Orange")
+                    {
+                        Back();
+                        Bottom();
+                        BackInverted();
+                        Bottom();
+                        Back();
+                        Bottom();
+                        Bottom();
+                        BackInverted();
+                        Bottom();
+                    }
+                    else
+                    {
+                        Bottom();
+                        //LineUpCenter();
+                    }
+                }
+                else if (left[1, 2] == "Red")
+                {
+                    if (front[1, 2] == "White")
+                    {
+                        Front();
+                        Bottom();
+                        FrontInverted();
+                        Bottom();
+                        Front();
+                        Bottom();
+                        Bottom();
+                        FrontInverted();
+                        Bottom();
+                    }
+                    else if (right[1, 2] == "Orange")
+                    {
+                        Back();
+                        Bottom();
+                        BackInverted();
+                        Bottom();
+                        Back();
+                        Bottom();
+                        Bottom();
+                        BackInverted();
+                    }
+                    else if (back[1, 0] == "Yellow")
+                    {
+                        Left();
+                        Bottom();
+                        LeftInverted();
+                        Bottom();
+                        Left();
+                        Bottom();
+                        Bottom();
+                        LeftInverted();
+                        Bottom();
+                    }
+                    else
+                    {
+                        Bottom();
+                        //LineUpCenter();
+                    }
+                }
+                else
+                {
+                    Bottom();
+                    //LineUpCenter();
+                }
+                lineUpCenter = CheckLineUpCenter2();
             }
             RefreshScreen(currentFace);
         }
@@ -4093,6 +4535,6 @@ namespace Cube.ViewModel
             }
         }
         #endregion
-        
+
     }
 }
