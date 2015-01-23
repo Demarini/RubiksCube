@@ -63,8 +63,97 @@ namespace Cube.ViewModel
             int j = totalMoves;
             FillInCorners();
             FillSecondLayer();
+            CreateFinalCross();
         }
-
+        public void CreateFinalCross()
+        {
+            bool finalCross = CheckFinalCross();
+            while (!finalCross)
+            {
+                string face = DetectAlgorithmFace();
+                FillLastCross(face);
+                finalCross = CheckFinalCross();
+            }
+        }
+        public void FillLastCross(string face)
+        {
+            if (face == "front")
+            {
+                Front();
+                Left();
+                Bottom();
+                LeftInverted();
+                BottomInverted();
+                FrontInverted();
+            }
+            else if (face == "back")
+            {
+                Back();
+                Right();
+                Bottom();
+                RightInverted();
+                BottomInverted();
+                BackInverted();
+            }
+            else if (face == "left")
+            {
+                Left();
+                Back();
+                Bottom();
+                BackInverted();
+                BottomInverted();
+                LeftInverted();
+            }
+            else if (face == "right")
+            {
+                Right();
+                Front();
+                Bottom();
+                FrontInverted();
+                BottomInverted();
+                RightInverted();
+            }
+            else if (face == "frontsingledot")
+            {
+                Front();
+                Left();
+                Bottom();
+                LeftInverted();
+                BottomInverted();
+                FrontInverted();
+            }
+        }
+        public string DetectAlgorithmFace()
+        {
+            if ((bottom[1, 2] == "Blue" && bottom[2, 1] == "Blue") || (bottom[2,1] == "Blue" && bottom[0,1] == "Blue"))
+            {
+                return "front";
+            }
+            if ((bottom[2, 1] == "Blue" && bottom[1, 0] == "Blue") || (bottom[1, 2] == "Blue" && bottom[1, 0] == "Blue"))
+            {
+                return "left";
+            }
+            if ((bottom[1, 0] == "Blue" && bottom[1,2] == "Blue"))
+            {
+                return "right";
+            }
+            if ((bottom[0, 1] == "Blue" && bottom[1, 0] == "Blue"))
+            {
+                return "back";
+            }
+            return "frontsingledot";
+        }
+        public bool CheckFinalCross()
+        {
+            if (bottom[1, 0] == "Blue" && bottom[2, 1] == "Blue" && bottom[0, 1] == "Blue" && bottom[1, 2] == "Blue")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public void FillSecondLayer()
         {
             bool isFilled = DetectSecondLayerFilled();
@@ -81,16 +170,57 @@ namespace Cube.ViewModel
                 isFilled = DetectSecondLayerFilled();
                 if (isFilled == false && detectedCubes.Count == 0)
                 {
-                    Bottom();
-                    Left();
-                    BottomInverted();
-                    LeftInverted();
-                    BottomInverted();
-                    FrontInverted();
-                    Bottom();
-                    Front();
+                    FindAnomaly();
+                    detectedCubes = DetectSecondLayerCubes();
                 }
             }
+        }
+        public void FindAnomaly()
+        {
+            if (front[0, 1] != "White" && left[2, 1] != "Red")
+            {
+                Bottom();
+                Left();
+                BottomInverted();
+                LeftInverted();
+                BottomInverted();
+                FrontInverted();
+                Bottom();
+                Front();
+            }
+            else if (front[2, 1] != "White" && right[0, 1] != "Orange")
+            {
+                BottomInverted();
+                RightInverted();
+                Bottom();
+                Right();
+                Bottom();
+                Front();
+                BottomInverted();
+                FrontInverted();
+            }
+            else if (left[0, 1] != "Red" && back[0, 1] != "Yellow")
+            {
+                Bottom();
+                Back();
+                BottomInverted();
+                BackInverted();
+                BottomInverted();
+                LeftInverted();
+                Bottom();
+                Left();
+            }
+            else if (right[2, 1] != "Orange" && back[2, 1] != "Yellow")
+            {
+                Bottom();
+                Right();
+                BottomInverted();
+                RightInverted();
+                BottomInverted();
+                BackInverted();
+                Bottom();
+                Back();
+            } 
         }
         public void FillLayers(List<string> detectCubes)
         {
@@ -1901,192 +2031,214 @@ namespace Cube.ViewModel
             }
             return greenCornerList;
         }
-        public void LineUpCenter()
+        public bool CheckLineUpCenter()
         {
             if (front[1, 0] == "White")
             {
-                if (right[1, 0] == "Orange")
-                {
-                    Front();
-                    Top();
-                    FrontInverted();
-                    Top();
-                    Front();
-                    Top();
-                    Top();
-                    FrontInverted();
-                    Top();
-                }
-                else if (back[1, 2] == "Yellow")
-                {
-                    Right();
-                    Top();
-                    RightInverted();
-                    Top();
-                    Right();
-                    Top();
-                    Top();
-                    RightInverted();
-                    //Top();
-                    LineUpCenter();
-                }
-                else if (left[1, 0] == "Red")
-                {
-                    Left();
-                    Top();
-                    LeftInverted();
-                    Top();
-                    Left();
-                    Top();
-                    Top();
-                    LeftInverted();
-                    Top();
-                }
-                else
-                {
-                    Top();
-                    LineUpCenter();
-                }
-            }
-            else if (right[1, 0] == "Orange")
-            {
-                if (back[1, 2] == "Yellow")
-                {
-                    Right();
-                    Top();
-                    RightInverted();
-                    Top();
-                    Right();
-                    Top();
-                    Top();
-                    RightInverted();
-                    Top();
-                }
-                else if (left[1, 0] == "Red")
-                {
-                    Front();
-                    Top();
-                    FrontInverted();
-                    Top();
-                    Front();
-                    Top();
-                    Top();
-                    FrontInverted();
-                    //Top();
-                    LineUpCenter();
-                }
-                else if (front[1, 0] == "White")
-                {
-                    Front();
-                    Top();
-                    FrontInverted();
-                    Top();
-                    Front();
-                    Top();
-                    Top();
-                    FrontInverted();
-                    Top();
-                }
-                else
-                {
-                    Top();
-                    LineUpCenter();
-                }
-            }
-            else if (back[1, 2] == "Yellow")
-            {
                 if (left[1, 0] == "Red")
                 {
-                    Back();
-                    Top();
-                    BackInverted();
-                    Top();
-                    Back();
-                    Top();
-                    Top();
-                    BackInverted();
-                    Top();
-                }
-                else if (front[1, 0] == "White")
-                {
-                    Right();
-                    Top();
-                    RightInverted();
-                    Top();
-                    Right();
-                    Top();
-                    Top();
-                    RightInverted();
-                    //Top();
-                    LineUpCenter();
-                }
-                else if (right[1, 0] == "Orange")
-                {
-                    Right();
-                    Top();
-                    RightInverted();
-                    Top();
-                    Right();
-                    Top();
-                    Top();
-                    RightInverted();
-                    Top();
-                }
-                else
-                {
-                    Top();
-                    LineUpCenter();
+                    if (right[1, 0] == "Orange")
+                    {
+                        if (back[1, 2] == "Yellow")
+                        {
+                            return true;
+                        }
+                    }
                 }
             }
-            else if (left[1, 0] == "Red")
+            return false;
+        }
+        public void LineUpCenter()
+        {
+            bool lineUpCenter = CheckLineUpCenter();
+            while (!lineUpCenter)
             {
                 if (front[1, 0] == "White")
                 {
-                    Left();
-                    Top();
-                    LeftInverted();
-                    Top();
-                    Left();
-                    Top();
-                    Top();
-                    LeftInverted();
-                    Top();
+                    if (right[1, 0] == "Orange")
+                    {
+                        Front();
+                        Top();
+                        FrontInverted();
+                        Top();
+                        Front();
+                        Top();
+                        Top();
+                        FrontInverted();
+                        Top();
+                    }
+                    else if (back[1, 2] == "Yellow")
+                    {
+                        Right();
+                        Top();
+                        RightInverted();
+                        Top();
+                        Right();
+                        Top();
+                        Top();
+                        RightInverted();
+                        //Top();
+                       // LineUpCenter();
+                    }
+                    else if (left[1, 0] == "Red")
+                    {
+                        Left();
+                        Top();
+                        LeftInverted();
+                        Top();
+                        Left();
+                        Top();
+                        Top();
+                        LeftInverted();
+                        Top();
+                    }
+                    else
+                    {
+                        Top();
+                       // LineUpCenter();
+                    }
                 }
                 else if (right[1, 0] == "Orange")
                 {
-                    Front();
-                    Top();
-                    FrontInverted();
-                    Top();
-                    Front();
-                    Top();
-                    Top();
-                    FrontInverted();
-                    //Top();
-                    LineUpCenter();
+                    if (back[1, 2] == "Yellow")
+                    {
+                        Right();
+                        Top();
+                        RightInverted();
+                        Top();
+                        Right();
+                        Top();
+                        Top();
+                        RightInverted();
+                        Top();
+                    }
+                    else if (left[1, 0] == "Red")
+                    {
+                        Front();
+                        Top();
+                        FrontInverted();
+                        Top();
+                        Front();
+                        Top();
+                        Top();
+                        FrontInverted();
+                        //Top();
+                        //LineUpCenter();
+                    }
+                    else if (front[1, 0] == "White")
+                    {
+                        Front();
+                        Top();
+                        FrontInverted();
+                        Top();
+                        Front();
+                        Top();
+                        Top();
+                        FrontInverted();
+                        Top();
+                    }
+                    else
+                    {
+                        Top();
+                        //LineUpCenter();
+                    }
                 }
                 else if (back[1, 2] == "Yellow")
                 {
-                    Back();
-                    Top();
-                    BackInverted();
-                    Top();
-                    Back();
-                    Top();
-                    Top();
-                    BackInverted();
-                    Top();
+                    if (left[1, 0] == "Red")
+                    {
+                        Back();
+                        Top();
+                        BackInverted();
+                        Top();
+                        Back();
+                        Top();
+                        Top();
+                        BackInverted();
+                        Top();
+                    }
+                    else if (front[1, 0] == "White")
+                    {
+                        Right();
+                        Top();
+                        RightInverted();
+                        Top();
+                        Right();
+                        Top();
+                        Top();
+                        RightInverted();
+                        //Top();
+                        //LineUpCenter();
+                    }
+                    else if (right[1, 0] == "Orange")
+                    {
+                        Right();
+                        Top();
+                        RightInverted();
+                        Top();
+                        Right();
+                        Top();
+                        Top();
+                        RightInverted();
+                        Top();
+                    }
+                    else
+                    {
+                        Top();
+                        //LineUpCenter();
+                    }
+                }
+                else if (left[1, 0] == "Red")
+                {
+                    if (front[1, 0] == "White")
+                    {
+                        Left();
+                        Top();
+                        LeftInverted();
+                        Top();
+                        Left();
+                        Top();
+                        Top();
+                        LeftInverted();
+                        Top();
+                    }
+                    else if (right[1, 0] == "Orange")
+                    {
+                        Front();
+                        Top();
+                        FrontInverted();
+                        Top();
+                        Front();
+                        Top();
+                        Top();
+                        FrontInverted();
+                        //Top();
+                        //LineUpCenter();
+                    }
+                    else if (back[1, 2] == "Yellow")
+                    {
+                        Back();
+                        Top();
+                        BackInverted();
+                        Top();
+                        Back();
+                        Top();
+                        Top();
+                        BackInverted();
+                        Top();
+                    }
+                    else
+                    {
+                        Top();
+                        //LineUpCenter();
+                    }
                 }
                 else
                 {
                     Top();
-                    LineUpCenter();
+                    //LineUpCenter();
                 }
-            }
-            else
-            {
-                Top();
-                LineUpCenter();
+                lineUpCenter = CheckLineUpCenter();
             }
             RefreshScreen(currentFace);
         }
