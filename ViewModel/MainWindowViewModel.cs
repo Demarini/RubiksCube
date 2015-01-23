@@ -62,6 +62,568 @@ namespace Cube.ViewModel
             long totalTime = t.ElapsedMilliseconds;
             int j = totalMoves;
             FillInCorners();
+            FillSecondLayer();
+        }
+
+        public void FillSecondLayer()
+        {
+            bool isFilled = DetectSecondLayerFilled();
+            List<string> detectedCubes = DetectSecondLayerCubes();
+            int iterations = 0;
+            while (!isFilled && iterations < 1000)
+            {
+                iterations++;
+                if (detectedCubes.Count != 0)
+                {
+                    FillLayers(detectedCubes);
+                }
+                detectedCubes = DetectSecondLayerCubes();
+                isFilled = DetectSecondLayerFilled();
+                if (isFilled == false && detectedCubes.Count == 0)
+                {
+                    Bottom();
+                    Left();
+                    BottomInverted();
+                    LeftInverted();
+                    BottomInverted();
+                    FrontInverted();
+                    Bottom();
+                    Front();
+                }
+            }
+        }
+        public void FillLayers(List<string> detectCubes)
+        {
+            detectCubes[0].Split('|');
+            string face = detectCubes[0].Split('|')[0].Split('_')[0];
+            string faceColor = detectCubes[0].Split('|')[0].Split('_')[1];
+            string bottomColor = detectCubes[0].Split('|')[1].Split('_')[1];
+            switch (face)
+            {
+                case "front":
+                    switch (faceColor)
+                    {
+                        case "White":
+                            switch (bottomColor)
+                            {
+                                case "Red":
+                                    //whitered
+                                    Bottom();
+                                    Left();
+                                    BottomInverted();
+                                    LeftInverted();
+                                    BottomInverted();
+                                    FrontInverted();
+                                    Bottom();
+                                    Front();
+                                    break;
+                                case "Orange":
+                                    //whiteorange
+                                    BottomInverted();
+                                    RightInverted();
+                                    Bottom();
+                                    Right();
+                                    Bottom();
+                                    Front();
+                                    BottomInverted();
+                                    FrontInverted();
+                                    break;
+                            }
+                            break;
+                        case "Red":
+                            BottomInverted();
+                            switch (bottomColor)
+                            {
+                                case "White":
+                                    //redwhite
+                                    BottomInverted();
+                                    FrontInverted();
+                                    Bottom();
+                                    Front();
+                                    Bottom();
+                                    Left();
+                                    BottomInverted();
+                                    LeftInverted();
+                                    break;
+                                case "Yellow":
+                                    //redyellow
+                                    Bottom();
+                                    Back();
+                                    BottomInverted();
+                                    BackInverted();
+                                    BottomInverted();
+                                    LeftInverted();
+                                    Bottom();
+                                    Left();
+                                    break;
+                            }
+                            break;
+                        case "Yellow":
+                            BottomInverted();
+                            BottomInverted();
+                            switch (bottomColor)
+                            {
+                                case "Red":
+                                    //yellowred
+                                    BottomInverted();
+                                    LeftInverted();
+                                    Bottom();
+                                    Left();
+                                    Bottom();
+                                    Back();
+                                    BottomInverted();
+                                    BackInverted();
+                                    break;
+                                case "Orange":
+                                    //yelloworange
+                                    Bottom();
+                                    Right();
+                                    BottomInverted();
+                                    RightInverted();
+                                    BottomInverted();
+                                    BackInverted();
+                                    Bottom();
+                                    Back();
+                                    break;
+                            }
+                            break;
+                        case "Orange":
+                            Bottom();
+                            switch (bottomColor)
+                            {
+                                case "Yellow":
+                                    //orangeyellow
+                                    BottomInverted();
+                                    BackInverted();
+                                    Bottom();
+                                    Back();
+                                    Bottom();
+                                    Right();
+                                    BottomInverted();
+                                    RightInverted();
+                                    break;
+                                case "White":
+                                    //orangewhite
+                                    Bottom();
+                                    Front();
+                                    BottomInverted();
+                                    FrontInverted();
+                                    BottomInverted();
+                                    RightInverted();
+                                    Bottom();
+                                    Right();
+                                    break;
+                            }
+                            break;
+                    }
+                    break;
+                case "left":
+                    switch (faceColor)
+                    {
+                        case "White":
+                            Bottom();
+                            switch (bottomColor)
+                            {
+                                case "Red":
+                                    //whitered
+                                    Bottom();
+                                    Left();
+                                    BottomInverted();
+                                    LeftInverted();
+                                    BottomInverted();
+                                    FrontInverted();
+                                    Bottom();
+                                    Front();
+                                    break;
+                                case "Orange":
+                                    //whiteorange
+                                    BottomInverted();
+                                    RightInverted();
+                                    Bottom();
+                                    Right();
+                                    Bottom();
+                                    Front();
+                                    BottomInverted();
+                                    FrontInverted();
+                                    break;
+                            }
+                            break;
+                        case "Red":
+                            switch (bottomColor)
+                            {
+                                case "White":
+                                    //redwhite
+                                    BottomInverted();
+                                    FrontInverted();
+                                    Bottom();
+                                    Front();
+                                    Bottom();
+                                    Left();
+                                    BottomInverted();
+                                    LeftInverted();
+                                    break;
+                                case "Yellow":
+                                    //redyellow
+                                    Bottom();
+                                    Back();
+                                    BottomInverted();
+                                    BackInverted();
+                                    BottomInverted();
+                                    LeftInverted();
+                                    Bottom();
+                                    Left();
+                                    break;
+                            }
+                            break;
+                        case "Yellow":
+                            BottomInverted();
+                            switch (bottomColor)
+                            {
+                                case "Red":
+                                    //yellowred
+                                    BottomInverted();
+                                    LeftInverted();
+                                    Bottom();
+                                    Left();
+                                    Bottom();
+                                    Back();
+                                    BottomInverted();
+                                    BackInverted();
+                                    break;
+                                case "Orange":
+                                    //yelloworange
+                                    Bottom();
+                                    Right();
+                                    BottomInverted();
+                                    RightInverted();
+                                    BottomInverted();
+                                    BackInverted();
+                                    Bottom();
+                                    Back();
+                                    break;
+                            }
+                            break;
+                        case "Orange":
+                            Bottom();
+                            Bottom();
+                            switch (bottomColor)
+                            {
+                                case "Yellow":
+                                    //orangeyellow
+                                    BottomInverted();
+                                    BackInverted();
+                                    Bottom();
+                                    Back();
+                                    Bottom();
+                                    Right();
+                                    BottomInverted();
+                                    RightInverted();
+                                    break;
+                                case "White":
+                                    //orangewhite
+                                    Bottom();
+                                    Front();
+                                    BottomInverted();
+                                    FrontInverted();
+                                    BottomInverted();
+                                    RightInverted();
+                                    Bottom();
+                                    Right();
+                                    break;
+                            }
+                            break;
+                    }
+                    break;
+                case "back":
+                    switch (faceColor)
+                    {
+                        case "White":
+                            Bottom();
+                            Bottom();
+                            switch (bottomColor)
+                            {
+                                case "Red":
+                                    //whitered
+                                    Bottom();
+                                    Left();
+                                    BottomInverted();
+                                    LeftInverted();
+                                    BottomInverted();
+                                    FrontInverted();
+                                    Bottom();
+                                    Front();
+                                    break;
+                                case "Orange":
+                                    //whiteorange
+                                    BottomInverted();
+                                    RightInverted();
+                                    Bottom();
+                                    Right();
+                                    Bottom();
+                                    Front();
+                                    BottomInverted();
+                                    FrontInverted();
+                                    break;
+                            }
+                            break;
+                        case "Red":
+                            Bottom();
+                            switch (bottomColor)
+                            {
+                                case "White":
+                                    //redwhite
+                                    BottomInverted();
+                                    FrontInverted();
+                                    Bottom();
+                                    Front();
+                                    Bottom();
+                                    Left();
+                                    BottomInverted();
+                                    LeftInverted();
+                                    break;
+                                case "Yellow":
+                                    //redyellow
+                                    Bottom();
+                                    Back();
+                                    BottomInverted();
+                                    BackInverted();
+                                    BottomInverted();
+                                    LeftInverted();
+                                    Bottom();
+                                    Left();
+                                    break;
+                            }
+                            break;
+                        case "Yellow":
+                            switch (bottomColor)
+                            {
+                                case "Red":
+                                    //yellowred
+                                    BottomInverted();
+                                    LeftInverted();
+                                    Bottom();
+                                    Left();
+                                    Bottom();
+                                    Back();
+                                    BottomInverted();
+                                    BackInverted();
+                                    break;
+                                case "Orange":
+                                    //yelloworange
+                                    Bottom();
+                                    Right();
+                                    BottomInverted();
+                                    RightInverted();
+                                    BottomInverted();
+                                    BackInverted();
+                                    Bottom();
+                                    Back();
+                                    break;
+                            }
+                            break;
+                        case "Orange":
+                            BottomInverted();
+                            switch (bottomColor)
+                            {
+                                case "Yellow":
+                                    //orangeyellow
+                                    BottomInverted();
+                                    BackInverted();
+                                    Bottom();
+                                    Back();
+                                    Bottom();
+                                    Right();
+                                    BottomInverted();
+                                    RightInverted();
+                                    break;
+                                case "White":
+                                    //orangewhite
+                                    Bottom();
+                                    Front();
+                                    BottomInverted();
+                                    FrontInverted();
+                                    BottomInverted();
+                                    RightInverted();
+                                    Bottom();
+                                    Right();
+                                    break;
+                            }
+                            break;
+                    }
+                    break;
+                case "right":
+                    switch (faceColor)
+                    {
+                        case "White":
+                            BottomInverted();
+                            switch (bottomColor)
+                            {
+                                case "Red":
+                                    //whitered
+                                    Bottom();
+                                    Left();
+                                    BottomInverted();
+                                    LeftInverted();
+                                    BottomInverted();
+                                    FrontInverted();
+                                    Bottom();
+                                    Front();
+                                    break;
+                                case "Orange":
+                                    //whiteorange
+                                    BottomInverted();
+                                    RightInverted();
+                                    Bottom();
+                                    Right();
+                                    Bottom();
+                                    Front();
+                                    BottomInverted();
+                                    FrontInverted();
+                                    break;
+                            }
+                            break;
+                        case "Red":
+                            BottomInverted();
+                            BottomInverted();
+                            switch (bottomColor)
+                            {
+                                case "White":
+                                    //redwhite
+                                    BottomInverted();
+                                    FrontInverted();
+                                    Bottom();
+                                    Front();
+                                    Bottom();
+                                    Left();
+                                    BottomInverted();
+                                    LeftInverted();
+                                    break;
+                                case "Yellow":
+                                    //redyellow
+                                    Bottom();
+                                    Back();
+                                    BottomInverted();
+                                    BackInverted();
+                                    BottomInverted();
+                                    LeftInverted();
+                                    Bottom();
+                                    Left();
+                                    break;
+                            }
+                            break;
+                        case "Yellow":
+                            Bottom();
+                            switch (bottomColor)
+                            {
+                                case "Red":
+                                    //yellowred
+                                    BottomInverted();
+                                    LeftInverted();
+                                    Bottom();
+                                    Left();
+                                    Bottom();
+                                    Back();
+                                    BottomInverted();
+                                    BackInverted();
+                                    break;
+                                case "Orange":
+                                    //yelloworange
+                                    Bottom();
+                                    Right();
+                                    BottomInverted();
+                                    RightInverted();
+                                    BottomInverted();
+                                    BackInverted();
+                                    Bottom();
+                                    Back();
+                                    break;
+                            }
+                            break;
+                        case "Orange":
+                            switch (bottomColor)
+                            {
+                                case "Yellow":
+                                    //orangeyellow
+                                    BottomInverted();
+                                    BackInverted();
+                                    Bottom();
+                                    Back();
+                                    Bottom();
+                                    Right();
+                                    BottomInverted();
+                                    RightInverted();
+                                    break;
+                                case "White":
+                                    //orangewhite
+                                    Bottom();
+                                    Front();
+                                    BottomInverted();
+                                    FrontInverted();
+                                    BottomInverted();
+                                    RightInverted();
+                                    Bottom();
+                                    Right();
+                                    break;
+                            }
+                            break;
+                    }
+                    break;
+            }
+        }
+        public bool DetectSecondLayerFilled()
+        {
+            bool isFilled = true;
+            if (front[0, 1] == "White" && left[2, 1] == "Red")
+            {
+                if (front[2, 1] == "White" && right[0, 1] == "Orange")
+                {
+                    if (right[2, 1] == "Orange" && back[2, 1] == "Yellow")
+                    {
+                        if (left[0, 1] == "Red" && back[0, 1] == "Yellow")
+                        {
+                            isFilled = true;
+                        }
+                        else
+                        {
+                            isFilled = false;
+                        }
+                    }
+                    else
+                    {
+                        isFilled = false;
+                    }
+                }
+                else
+                {
+                    isFilled = false;
+                }
+            }
+            else
+            {
+                isFilled = false;
+            }
+            return isFilled;
+        }
+        public List<string> DetectSecondLayerCubes()
+        {
+            List<string> detectedCubes = new List<string>();
+            if (front[1, 2] != "Blue" && bottom[1, 0] != "Blue")
+            {
+                detectedCubes.Add("front_" + front[1, 2] + "|" + "bottom_" + bottom[1, 0]);
+            }
+            if (left[1, 2] != "Blue" && bottom[0, 1] != "Blue")
+            {
+                detectedCubes.Add("left_" + left[1, 2] + "|" + "bottom_" + bottom[0, 1]);
+            }
+            if (right[1, 2] != "Blue" && bottom[2, 1] != "Blue")
+            {
+                detectedCubes.Add("right_" + right[1, 2] + "|" + "bottom_" + bottom[2, 1]);
+            }
+            if (back[1, 0] != "Blue" && bottom[1, 2] != "Blue")
+            {
+                detectedCubes.Add("back_" + back[1, 0] + "|" + "bottom_" + bottom[1, 2]);
+            }
+            return detectedCubes;
         }
         public void FillInCorners()
         {
@@ -245,6 +807,7 @@ namespace Cube.ViewModel
                                 BottomInverted();
                                 Left();
                                 Bottom();
+                                cornersList = GetGreenCorners();
                             }
                             break;
                         case "front22":
@@ -282,6 +845,7 @@ namespace Cube.ViewModel
                                 Bottom();
                                 BackInverted();
                                 BottomInverted();
+                                cornersList = GetGreenCorners();
                             }
                             break;
                         case "back00":
@@ -406,6 +970,7 @@ namespace Cube.ViewModel
                                 Bottom();
                                 LeftInverted();
                                 BottomInverted();
+                                cornersList = GetGreenCorners();
                             }
                             if (colors.Contains("Red") && colors.Contains("Yellow"))
                             {
@@ -566,6 +1131,7 @@ namespace Cube.ViewModel
                                 Bottom();
                                 LeftInverted();
                                 Bottom();
+                                cornersList = GetGreenCorners();
                             }
                             if (colors.Contains("Red") && colors.Contains("Yellow"))
                             {
@@ -592,6 +1158,7 @@ namespace Cube.ViewModel
                                 BottomInverted();
                                 Right();
                                 Bottom();
+                                cornersList = GetGreenCorners();
                             }
                             if (colors.Contains("Orange") && colors.Contains("Yellow"))
                             {
@@ -651,6 +1218,7 @@ namespace Cube.ViewModel
                                 Bottom();
                                 LeftInverted();
                                 Bottom();
+                                cornersList = GetGreenCorners();
                             }
                             if (colors.Contains("Red") && colors.Contains("Yellow"))
                             {
@@ -675,6 +1243,7 @@ namespace Cube.ViewModel
                                 BottomInverted();
                                 Right();
                                 Bottom();
+                                cornersList = GetGreenCorners();
                             }
                             if (colors.Contains("Orange") && colors.Contains("Yellow"))
                             {
@@ -754,7 +1323,8 @@ namespace Cube.ViewModel
                                 Left();
                                 Bottom();
                                 LeftInverted();
-                                BottomInverted(); cornersList = GetGreenCorners();
+                                BottomInverted();
+                                cornersList = GetGreenCorners();
                             }
                             if (colors.Contains("Red") && colors.Contains("Yellow"))
                             {
@@ -3357,6 +3927,8 @@ namespace Cube.ViewModel
                 OnPropertyChanged("brBack");
             }
         }
+
+        #region PropertyChangedEvent
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName)
@@ -3368,5 +3940,7 @@ namespace Cube.ViewModel
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+        #endregion
+        
     }
 }
