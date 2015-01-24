@@ -13,6 +13,7 @@ namespace Cube.ViewModel
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
+        string finalString = "";
         string currentCube = "";
         int totalMoves = 0;
         private string _tlBack;
@@ -41,6 +42,7 @@ namespace Cube.ViewModel
 
         public void SolveCube()
         {
+            finalString = "";
             totalMoves = 0;
             Stopwatch t = new Stopwatch();
             t.Start();
@@ -67,12 +69,13 @@ namespace Cube.ViewModel
             LineUpCenter2();
             FillLastCorners();
             FinishCube();
+            WriteSolve(finalString);
         }
         public void FinishCube()
         {
-            while (front[0, 2] != "White")
+            while (bottom[0, 0] != "Blue")
             {
-                if (front[0, 2] != "White")
+                if (bottom[0, 0] != "Blue")
                 {
                     LeftInverted();
                     Top();
@@ -81,9 +84,9 @@ namespace Cube.ViewModel
                 }
             }
             BottomInverted();
-            while (front[0, 2] != "Orange")
+            while (bottom[0, 0] != "Blue")
             {
-                if (front[0, 2] != "Orange")
+                if (bottom[0, 0] != "Blue")
                 {
                     LeftInverted();
                     Top();
@@ -92,9 +95,9 @@ namespace Cube.ViewModel
                 }
             }
             BottomInverted();
-            while (front[0, 2] != "Yellow")
+            while (bottom[0, 0] != "Blue")
             {
-                if (front[0, 2] != "Yellow")
+                if (bottom[0, 0] != "Blue")
                 {
                     LeftInverted();
                     Top();
@@ -103,9 +106,9 @@ namespace Cube.ViewModel
                 }
             }
             BottomInverted();
-            while (front[0, 2] != "Red")
+            while (bottom[0, 0] != "Blue")
             {
-                if (front[0, 2] != "Red")
+                if (bottom[0, 0] != "Blue")
                 {
                     LeftInverted();
                     Top();
@@ -114,13 +117,12 @@ namespace Cube.ViewModel
                 }
             }
             int interval = 0;
-            while (front[2, 2] != "White" || interval > 1000)
+            while ((front[2, 2] != "White") && interval < 1000)
             {
                 interval++;
-                if (front[2, 2] != "White")
-                {
+                
                     BottomInverted();
-                }
+                
             }
         }
         
@@ -3266,6 +3268,7 @@ namespace Cube.ViewModel
         }
         public void Right()
         {
+            finalString += "R, ";
             totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
@@ -3305,6 +3308,7 @@ namespace Cube.ViewModel
 
         public void RightInverted()
         {
+            finalString += "Ri, ";
             totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
@@ -3344,6 +3348,7 @@ namespace Cube.ViewModel
 
         public void LeftInverted()
         {
+            finalString += "Li, ";
             totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
@@ -3382,6 +3387,7 @@ namespace Cube.ViewModel
         }
         public void Left()
         {
+            finalString += "L, ";
             totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
@@ -3421,6 +3427,7 @@ namespace Cube.ViewModel
 
         public void Top()
         {
+            finalString += "U, ";
             totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
@@ -3460,6 +3467,7 @@ namespace Cube.ViewModel
 
         public void TopInverted()
         {
+            finalString += "Ui, ";
             totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
@@ -3499,6 +3507,7 @@ namespace Cube.ViewModel
 
         public void BottomInverted()
         {
+            finalString += "Di, ";
             totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
@@ -3538,6 +3547,7 @@ namespace Cube.ViewModel
 
         public void Bottom()
         {
+            finalString += "D, ";
             totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
@@ -3577,6 +3587,7 @@ namespace Cube.ViewModel
 
         public void Front()
         {
+            finalString += "F, ";
             totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
@@ -3616,6 +3627,7 @@ namespace Cube.ViewModel
 
         public void FrontInverted()
         {
+            finalString += "Fi, ";
             totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
@@ -3655,6 +3667,7 @@ namespace Cube.ViewModel
 
         public void BackInverted()
         {
+            finalString += "Bi, ";
             totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
@@ -3694,6 +3707,7 @@ namespace Cube.ViewModel
 
         public void Back()
         {
+            finalString += "B, ";
             totalMoves++;
             string[,] tempRight = CopyFace(right);
             string[,] tempFront = CopyFace(front);
@@ -4399,6 +4413,15 @@ namespace Cube.ViewModel
             using (System.IO.StreamWriter file = new System.IO.StreamWriter("scramble.txt", true))
             {
                 file.WriteLine(scrambleString);
+            }
+        }
+        public void WriteSolve(string solveString)
+        {
+            // WriteAllLines creates a file, writes a collection of strings to the file, 
+            // and then closes the file.
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter("solve.txt", true))
+            {
+                file.WriteLine(solveString);
             }
         }
         public System.Windows.Visibility ColorVisibility
