@@ -1,8 +1,10 @@
-﻿using GalaSoft.MvvmLight.Command;
+﻿using Cube.Model;
+using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,12 +36,16 @@ namespace Cube.ViewModel
         private string currentFace = "front";
         int lineupcenter = 0;
         private System.Windows.Visibility colorVisibility = System.Windows.Visibility.Hidden;
+        MainWindowModel m;
+        #region Constructor
         public MainWindowViewModel()
         {
+            m = new MainWindowModel(this);
             ClearCube();
             ShowFace(front);
         }
-
+        #endregion
+        #region CubeMethods
         public void SolveCube()
         {
             finalString = "";
@@ -48,28 +54,20 @@ namespace Cube.ViewModel
             t.Start();
             List<string> crossPieces = FindCrossPieces();
             List<string> openCross = FindOpenCross();
-            //if (lineupcenter == 0)
-            //{
-            //    PlaceCrossPieces(openCross, crossPieces, 0);
-            //    lineupcenter++;
-            //}
-            //else
-            //{
-            //    LineUpCenter();
-            //}
             PlaceCrossPieces(openCross, crossPieces, 0);
             int k = totalMoves;
             LineUpCenter();
             t.Stop();
             long totalTime = t.ElapsedMilliseconds;
-            int j = totalMoves;
             FillInCorners();
             FillSecondLayer();
             CreateFinalCross();
             LineUpCenter2();
             FillLastCorners();
             FinishCube();
+            File.Delete("solve.txt");
             WriteSolve(finalString);
+            int j = totalMoves;
         }
         public void FinishCube()
         {
@@ -3770,15 +3768,15 @@ namespace Cube.ViewModel
         }
         public void ShowFace(string[,] side)
         {
-            tlBack = side[0, 0];
-            tmBack = side[1, 0];
-            trBack = side[2, 0];
-            mlBack = side[0, 1];
-            mmBack = side[1, 1];
-            mrBack = side[2, 1];
-            blBack = side[0, 2];
-            bmBack = side[1, 2];
-            brBack = side[2, 2];
+            m.tlBack = side[0, 0];
+            m.tmBack = side[1, 0];
+            m.trBack = side[2, 0];
+            m.mlBack = side[0, 1];
+            m.mmBack = side[1, 1];
+            m.mrBack = side[2, 1];
+            m.blBack = side[0, 2];
+            m.bmBack = side[1, 2];
+            m.brBack = side[2, 2];
         }
         public void SetOriginalColor(string[,] side, string color)
         {
@@ -3790,7 +3788,253 @@ namespace Cube.ViewModel
                 }
             }
         }
-
+        public void SetCubeColor(string color)
+        {
+            switch (currentCube)
+            {
+                case "fronttl":
+                    front[0, 0] = color;
+                    break;
+                case "fronttm":
+                    front[1, 0] = color;
+                    break;
+                case "fronttr":
+                    front[2, 0] = color;
+                    break;
+                case "frontml":
+                    front[0, 1] = color;
+                    break;
+                case "frontmr":
+                    front[2, 1] = color;
+                    break;
+                case "frontbl":
+                    front[0, 2] = color;
+                    break;
+                case "frontbm":
+                    front[1, 2] = color;
+                    break;
+                case "frontbr":
+                    front[2, 2] = color;
+                    break;
+                case "backtl":
+                    back[0, 0] = color;
+                    break;
+                case "backtm":
+                    back[1, 0] = color;
+                    break;
+                case "backtr":
+                    back[2, 0] = color;
+                    break;
+                case "backml":
+                    back[0, 1] = color;
+                    break;
+                case "backmr":
+                    back[2, 1] = color;
+                    break;
+                case "backbl":
+                    back[0, 2] = color;
+                    break;
+                case "backbm":
+                    back[1, 2] = color;
+                    break;
+                case "backbr":
+                    back[2, 2] = color;
+                    break;
+                case "toptl":
+                    top[0, 0] = color;
+                    break;
+                case "toptm":
+                    top[1, 0] = color;
+                    break;
+                case "toptr":
+                    top[2, 0] = color;
+                    break;
+                case "topml":
+                    top[0, 1] = color;
+                    break;
+                case "topmr":
+                    top[2, 1] = color;
+                    break;
+                case "topbl":
+                    top[0, 2] = color;
+                    break;
+                case "topbm":
+                    top[1, 2] = color;
+                    break;
+                case "topbr":
+                    top[2, 2] = color;
+                    break;
+                case "bottomtl":
+                    bottom[0, 0] = color;
+                    break;
+                case "bottomtm":
+                    bottom[1, 0] = color;
+                    break;
+                case "bottomtr":
+                    bottom[2, 0] = color;
+                    break;
+                case "bottomml":
+                    bottom[0, 1] = color;
+                    break;
+                case "bottommr":
+                    bottom[2, 1] = color;
+                    break;
+                case "bottombl":
+                    bottom[0, 2] = color;
+                    break;
+                case "bottombm":
+                    bottom[1, 2] = color;
+                    break;
+                case "bottombr":
+                    bottom[2, 2] = color;
+                    break;
+                case "lefttl":
+                    left[0, 0] = color;
+                    break;
+                case "lefttm":
+                    left[1, 0] = color;
+                    break;
+                case "lefttr":
+                    left[2, 0] = color;
+                    break;
+                case "leftml":
+                    left[0, 1] = color;
+                    break;
+                case "leftmr":
+                    left[2, 1] = color;
+                    break;
+                case "leftbl":
+                    left[0, 2] = color;
+                    break;
+                case "leftbm":
+                    left[1, 2] = color;
+                    break;
+                case "leftbr":
+                    left[2, 2] = color;
+                    break;
+                case "righttl":
+                    right[0, 0] = color;
+                    break;
+                case "righttm":
+                    right[1, 0] = color;
+                    break;
+                case "righttr":
+                    right[2, 0] = color;
+                    break;
+                case "rightml":
+                    right[0, 1] = color;
+                    break;
+                case "rightmr":
+                    right[2, 1] = color;
+                    break;
+                case "rightbl":
+                    right[0, 2] = color;
+                    break;
+                case "rightbm":
+                    right[1, 2] = color;
+                    break;
+                case "rightbr":
+                    right[2, 2] = color;
+                    break;
+            }
+            m.ColorVisibility = System.Windows.Visibility.Hidden;
+            RefreshScreen(currentFace);
+        }
+        public void SelectColor(string face)
+        {
+            currentCube = currentFace + face;
+            m.ColorVisibility = System.Windows.Visibility.Visible;
+        }
+        public void ClearCube()
+        {
+            SetOriginalColor(front, "White");
+            SetOriginalColor(left, "Red");
+            SetOriginalColor(back, "Yellow");
+            SetOriginalColor(right, "Orange");
+            SetOriginalColor(top, "Green");
+            SetOriginalColor(bottom, "Blue");
+            ShowFace(front);
+            lineupcenter = 0;
+        }
+        public void ScrambleCube()
+        {
+            string finalString = "";
+            Random r = new Random();
+            for (int i = 0; i < 1000; i++)
+            {
+                int move = r.Next(12);
+                switch (move)
+                {
+                    case 0:
+                        Right();
+                        finalString += "R,";
+                        break;
+                    case 1:
+                        RightInverted();
+                        finalString += "Ri,";
+                        break;
+                    case 2:
+                        Left();
+                        finalString += "L,";
+                        break;
+                    case 3:
+                        LeftInverted();
+                        finalString += "Li,";
+                        break;
+                    case 4:
+                        Front();
+                        finalString += "F,";
+                        break;
+                    case 5:
+                        FrontInverted();
+                        finalString += "Fi,";
+                        break;
+                    case 6:
+                        Back();
+                        finalString += "B,";
+                        break;
+                    case 7:
+                        BackInverted();
+                        finalString += "Bi,";
+                        break;
+                    case 8:
+                        Top();
+                        finalString += "U,";
+                        break;
+                    case 9:
+                        TopInverted();
+                        finalString += "Ui,";
+                        break;
+                    case 10:
+                        Bottom();
+                        finalString += "D,";
+                        break;
+                    case 11:
+                        BottomInverted();
+                        finalString += "Di,";
+                        break;
+                }
+            }
+            WriteScramble(finalString);
+        }
+        public void WriteScramble(string scrambleString)
+        {
+            // WriteAllLines creates a file, writes a collection of strings to the file, 
+            // and then closes the file.
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter("scramble.txt", true))
+            {
+                file.WriteLine(scrambleString);
+            }
+        }
+        public void WriteSolve(string solveString)
+        {
+            // WriteAllLines creates a file, writes a collection of strings to the file, 
+            // and then closes the file.
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter("solve.txt", true))
+            {
+                file.WriteLine(solveString);
+            }
+        }
         public string[,] CopyFace(string[,] copiedFace)
         {
             string[,] returnedFace = new string[3, 3];
@@ -3803,6 +4047,8 @@ namespace Cube.ViewModel
             }
             return returnedFace;
         }
+        #endregion
+        #region Commands
         public ICommand FrontClick
         {
             get
@@ -4008,7 +4254,7 @@ namespace Cube.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    ColorVisibility = System.Windows.Visibility.Hidden;
+                    m.ColorVisibility = System.Windows.Visibility.Hidden;
                     ClearCube();
                 });
             }
@@ -4019,7 +4265,7 @@ namespace Cube.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    ColorVisibility = System.Windows.Visibility.Hidden;
+                    m.ColorVisibility = System.Windows.Visibility.Hidden;
                     ScrambleCube();
                     lineupcenter = 0;
                 });
@@ -4176,254 +4422,8 @@ namespace Cube.ViewModel
                 });
             }
         }
-        public void SetCubeColor(string color)
-        {
-            switch (currentCube)
-            {
-                case "fronttl":
-                    front[0, 0] = color;
-                    break;
-                case "fronttm":
-                    front[1, 0] = color;
-                    break;
-                case "fronttr":
-                    front[2, 0] = color;
-                    break;
-                case "frontml":
-                    front[0, 1] = color;
-                    break;
-                case "frontmr":
-                    front[2, 1] = color;
-                    break;
-                case "frontbl":
-                    front[0, 2] = color;
-                    break;
-                case "frontbm":
-                    front[1, 2] = color;
-                    break;
-                case "frontbr":
-                    front[2, 2] = color;
-                    break;
-                case "backtl":
-                    back[0, 0] = color;
-                    break;
-                case "backtm":
-                    back[1, 0] = color;
-                    break;
-                case "backtr":
-                    back[2, 0] = color;
-                    break;
-                case "backml":
-                    back[0, 1] = color;
-                    break;
-                case "backmr":
-                    back[2, 1] = color;
-                    break;
-                case "backbl":
-                    back[0, 2] = color;
-                    break;
-                case "backbm":
-                    back[1, 2] = color;
-                    break;
-                case "backbr":
-                    back[2, 2] = color;
-                    break;
-                case "toptl":
-                    top[0, 0] = color;
-                    break;
-                case "toptm":
-                    top[1, 0] = color;
-                    break;
-                case "toptr":
-                    top[2, 0] = color;
-                    break;
-                case "topml":
-                    top[0, 1] = color;
-                    break;
-                case "topmr":
-                    top[2, 1] = color;
-                    break;
-                case "topbl":
-                    top[0, 2] = color;
-                    break;
-                case "topbm":
-                    top[1, 2] = color;
-                    break;
-                case "topbr":
-                    top[2, 2] = color;
-                    break;
-                case "bottomtl":
-                    bottom[0, 0] = color;
-                    break;
-                case "bottomtm":
-                    bottom[1, 0] = color;
-                    break;
-                case "bottomtr":
-                    bottom[2, 0] = color;
-                    break;
-                case "bottomml":
-                    bottom[0, 1] = color;
-                    break;
-                case "bottommr":
-                    bottom[2, 1] = color;
-                    break;
-                case "bottombl":
-                    bottom[0, 2] = color;
-                    break;
-                case "bottombm":
-                    bottom[1, 2] = color;
-                    break;
-                case "bottombr":
-                    bottom[2, 2] = color;
-                    break;
-                case "lefttl":
-                    left[0, 0] = color;
-                    break;
-                case "lefttm":
-                    left[1, 0] = color;
-                    break;
-                case "lefttr":
-                    left[2, 0] = color;
-                    break;
-                case "leftml":
-                    left[0, 1] = color;
-                    break;
-                case "leftmr":
-                    left[2, 1] = color;
-                    break;
-                case "leftbl":
-                    left[0, 2] = color;
-                    break;
-                case "leftbm":
-                    left[1, 2] = color;
-                    break;
-                case "leftbr":
-                    left[2, 2] = color;
-                    break;
-                case "righttl":
-                    right[0, 0] = color;
-                    break;
-                case "righttm":
-                    right[1, 0] = color;
-                    break;
-                case "righttr":
-                    right[2, 0] = color;
-                    break;
-                case "rightml":
-                    right[0, 1] = color;
-                    break;
-                case "rightmr":
-                    right[2, 1] = color;
-                    break;
-                case "rightbl":
-                    right[0, 2] = color;
-                    break;
-                case "rightbm":
-                    right[1, 2] = color;
-                    break;
-                case "rightbr":
-                    right[2, 2] = color;
-                    break;
-            }
-            ColorVisibility = System.Windows.Visibility.Hidden;
-            RefreshScreen(currentFace);
-        }
-        public void SelectColor(string face)
-        {
-            currentCube = currentFace + face;
-            ColorVisibility = System.Windows.Visibility.Visible;
-        }
-        public void ClearCube()
-        {
-            SetOriginalColor(front, "White");
-            SetOriginalColor(left, "Red");
-            SetOriginalColor(back, "Yellow");
-            SetOriginalColor(right, "Orange");
-            SetOriginalColor(top, "Green");
-            SetOriginalColor(bottom, "Blue");
-            ShowFace(front);
-            lineupcenter = 0;
-        }
-        public void ScrambleCube()
-        {
-            string finalString = "";
-            Random r = new Random();
-            for (int i = 0; i < 1000; i++)
-            {
-                int move = r.Next(12);
-                switch (move)
-                {
-                    case 0:
-                        Right();
-                        finalString += "R,";
-                        break;
-                    case 1:
-                        RightInverted();
-                        finalString += "Ri,";
-                        break;
-                    case 2:
-                        Left();
-                        finalString += "L,";
-                        break;
-                    case 3:
-                        LeftInverted();
-                        finalString += "Li,";
-                        break;
-                    case 4:
-                        Front();
-                        finalString += "F,";
-                        break;
-                    case 5:
-                        FrontInverted();
-                        finalString += "Fi,";
-                        break;
-                    case 6:
-                        Back();
-                        finalString += "B,";
-                        break;
-                    case 7:
-                        BackInverted();
-                        finalString += "Bi,";
-                        break;
-                    case 8:
-                        Top();
-                        finalString += "U,";
-                        break;
-                    case 9:
-                        TopInverted();
-                        finalString += "Ui,";
-                        break;
-                    case 10:
-                        Bottom();
-                        finalString += "D,";
-                        break;
-                    case 11:
-                        BottomInverted();
-                        finalString += "Di,";
-                        break;
-                }
-            }
-            WriteScramble(finalString);
-        }
-
-        public void WriteScramble(string scrambleString)
-        {
-            // WriteAllLines creates a file, writes a collection of strings to the file, 
-            // and then closes the file.
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter("scramble.txt", true))
-            {
-                file.WriteLine(scrambleString);
-            }
-        }
-        public void WriteSolve(string solveString)
-        {
-            // WriteAllLines creates a file, writes a collection of strings to the file, 
-            // and then closes the file.
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter("solve.txt", true))
-            {
-                file.WriteLine(solveString);
-            }
-        }
+        #endregion
+        #region Attributes
         public System.Windows.Visibility ColorVisibility
         {
             get
@@ -4544,7 +4544,7 @@ namespace Cube.ViewModel
                 OnPropertyChanged("brBack");
             }
         }
-
+        #endregion
         #region PropertyChangedEvent
         public event PropertyChangedEventHandler PropertyChanged;
 

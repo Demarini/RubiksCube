@@ -21,3 +21,23 @@ c:\users\tlmarin\documents\visual studio 2012\Projects\Cube\Cube\bin\Debug\GalaS
 c:\users\tlmarin\documents\visual studio 2012\Projects\Cube\Cube\bin\Debug\GalaSoft.MvvmLight.WPF4.xml
 c:\users\tlmarin\documents\visual studio 2012\Projects\Cube\Cube\bin\Debug\Microsoft.Practices.ServiceLocation.xml
 c:\users\tlmarin\documents\visual studio 2012\Projects\Cube\Cube\bin\Debug\System.Windows.Interactivity.xml
+C:\Users\Tommy\Desktop\cube2\rubikscube\bin\Debug\Cube.exe.config
+C:\Users\Tommy\Desktop\cube2\rubikscube\obj\Debug\Cube.exe
+C:\Users\Tommy\Desktop\cube2\rubikscube\obj\Debug\Cube.pdb
+C:\Users\Tommy\Desktop\cube2\rubikscube\bin\Debug\Cube.exe
+C:\Users\Tommy\Desktop\cube2\rubikscube\bin\Debug\Cube.pdb
+C:\Users\Tommy\Desktop\cube2\rubikscube\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+C:\Users\Tommy\Desktop\cube2\rubikscube\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\Tommy\Desktop\cube2\rubikscube\bin\Debug\GalaSoft.MvvmLight.Extras.WPF45.xml
+C:\Users\Tommy\Desktop\cube2\rubikscube\bin\Debug\GalaSoft.MvvmLight.WPF4.xml
+C:\Users\Tommy\Desktop\cube2\rubikscube\bin\Debug\Microsoft.Practices.ServiceLocation.xml
+C:\Users\Tommy\Desktop\cube2\rubikscube\bin\Debug\System.Windows.Interactivity.xml
+C:\Users\Tommy\Desktop\cube2\rubikscube\obj\Debug\Cube.csprojResolveAssemblyReference.cache
+C:\Users\Tommy\Desktop\cube2\rubikscube\obj\Debug\View\MainWindow.g.cs
+C:\Users\Tommy\Desktop\cube2\rubikscube\obj\Debug\App.g.cs
+C:\Users\Tommy\Desktop\cube2\rubikscube\obj\Debug\Cube_MarkupCompile.cache
+C:\Users\Tommy\Desktop\cube2\rubikscube\obj\Debug\Cube_MarkupCompile.lref
+C:\Users\Tommy\Desktop\cube2\rubikscube\obj\Debug\View\MainWindow.baml
+C:\Users\Tommy\Desktop\cube2\rubikscube\obj\Debug\Cube.g.resources
+C:\Users\Tommy\Desktop\cube2\rubikscube\obj\Debug\Cube.Properties.Resources.resources
+C:\Users\Tommy\Desktop\cube2\rubikscube\obj\Debug\Cube.csproj.GenerateResource.Cache
