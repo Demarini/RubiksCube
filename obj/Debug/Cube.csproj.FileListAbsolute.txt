@@ -11,7 +11,6 @@ c:\users\tlmarin\documents\visual studio 2012\Projects\Cube\Cube\obj\Debug\Cube.
 c:\users\tlmarin\documents\visual studio 2012\Projects\Cube\Cube\obj\Debug\Cube.csproj.GenerateResource.Cache
 c:\users\tlmarin\documents\visual studio 2012\Projects\Cube\Cube\obj\Debug\Cube.exe
 c:\users\tlmarin\documents\visual studio 2012\Projects\Cube\Cube\obj\Debug\Cube.pdb
-c:\users\tlmarin\documents\visual studio 2012\Projects\Cube\Cube\obj\Debug\GeneratedInternalTypeHelper.g.cs
 c:\users\tlmarin\documents\visual studio 2012\Projects\Cube\Cube\obj\Debug\Cube_MarkupCompile.lref
 c:\users\tlmarin\documents\visual studio 2012\Projects\Cube\Cube\bin\Debug\GalaSoft.MvvmLight.Extras.WPF45.dll
 c:\users\tlmarin\documents\visual studio 2012\Projects\Cube\Cube\bin\Debug\GalaSoft.MvvmLight.WPF4.dll
